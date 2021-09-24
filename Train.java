@@ -12,10 +12,13 @@ public class Train {
 	
 	private String name;
 	private int power;
+	//private int weight;
 	private int[] cars = null;	// Each freight car is represented by an integer representing how many tons that it
-	weighs
+	// weighs
 
 	// constructor
+	private int numberOfCars = 0;
+	
 	public Train (String n,  int p) {
 		this.name = n;
 		this.power = p;
@@ -56,7 +59,8 @@ public class Train {
 
 	// this fuction returns the number of cars
 	// @ param scope: local variable
-	// should consider null case, which is no car at al
+	// should consider null case, which is no car at all
+	// if someone enter 0 for cars, weight is fine, but total number is 1, not make sence
 	public int getNumberOfCars(){
 		int number = 0;
 
