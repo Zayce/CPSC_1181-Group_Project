@@ -1,3 +1,5 @@
+package y;
+
 /**
  * Train Class
  * 
@@ -15,6 +17,13 @@ public class Train {
 	private int[] cars = null;	// Each freight car is represented by an integer representing how many tons that it weighs
 	
 	public Train (String n,  int p) {
+		if((n == "") || (n == null)){
+			throw new IllegalArgumentException("String should not be empty or contain null.");
+		}
+		if(p < 0){
+			throw new IllegalArgumentException("Power should not be negative.");
+		}
+
 		this.name = n;
 		this.power = p;
 	}
