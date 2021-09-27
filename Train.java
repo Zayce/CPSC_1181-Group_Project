@@ -12,9 +12,7 @@ public class Train {
 	
 	private String name;
 	private int power;
-	//private int weight;
 	private int[] cars = null;	// Each freight car is represented by an integer representing how many tons that it weighs
-	private int weight = 0;
 	
 	public Train (String n,  int p) {
 		this.name = n;
@@ -76,7 +74,36 @@ public class Train {
 	
 	@Override
 	public String toString(){
-		return "";
+		return(
+		"This train " + this.getName() + "has " + this.getPower() + " amount of power.\n" + 
+		"It has " + this.getNumberOfCars() + " that weighs " + this.getTotalWeightOfCars() + " tons in total");
+	}
+
+	public void removeAllCars(){
+		int[] tempEmptyArray = new int[0];
+		this.cars = tempEmptyArray;
+	}
+
+	public void addCars(int... weights){
+		//Creating a new int array with length of both cars, and copying each value to this new array.
+		int[] temp = new int[this.cars.length + weights.length];
+		for(int i = 0; i < this.cars.length; i++){
+			temp[i] = this.cars[i];
+		}
+		for(int j = this.cars.length; j < this.cars.length + weights.length; j++){
+			temp[j] = weights[j-this.cars.length];
+		}
+		this.cars = temp;
+	}
+	
+	public void mergeTrains(Train other){
+		if ((other.cars.length <= 0) || (other != null)){
+			//Adding power from other train to the current train, and setting the other train's power to zezro
+			this.power += other.power;
+			other.setPower(0);
+			addCars(other.cars);
+			removeAllCars();
+		}
 	}
 
 }
