@@ -1,20 +1,20 @@
-package y;
-
 /**
  * Train Class
  * 
  * @author Zulhelmi (Zoella) Mohamad
  * @author Chendong (Oliver) Zhu
  *
- */
+ **/
 
- //TODO: VSCode needs Junit, JavaDocs and Java debugging to be as good as eclipse
+ //TODO: Brief desc of methods below, @param, @return
 
-public class Train {
+ public class Train {
 	
 	private String name;
 	private int power;
-	private int[] cars = null;	// Each freight car is represented by an integer representing how many tons that it weighs
+	private int[] cars = new int[0];	// Each freight car is represented by an integer representing how many tons that it weighs
+	
+	final int MAX_SPEED = 150;
 	
 	public Train (String n,  int p) {
 		if((n == "") || (n == null)){
@@ -63,7 +63,7 @@ public class Train {
 		return weightSum;
 	}
 
-
+	//TODO: Fix this
 	// this fuction returns the number of cars
 	// @ param scope: local variable
 	// should consider null case, which is no car at all
@@ -77,8 +77,17 @@ public class Train {
 		}
 	}
     
-	public int getMaxSpeed(int power){
-		return (power - this.getTotalWeightOfCars());
+	public int getMaxSpeed(){
+		int speed = this.power - this.getTotalWeightOfCars();
+		if (speed <= 0) {
+			return 0;
+		}
+		else if(speed >= MAX_SPEED){
+			return MAX_SPEED;
+		}
+		else {
+			return speed;
+		}
 	}
 	
 	@Override
@@ -94,15 +103,28 @@ public class Train {
 	}
 
 	public void addCars(int... weights){
-		//Creating a new int array with length of both cars, and copying each value to this new array.
-		int[] temp = new int[this.cars.length + weights.length];
-		for(int i = 0; i < this.cars.length; i++){
-			temp[i] = this.cars[i];
+		if((weights == null) || (weights.length <= 0)){
+			throw new IllegalArgumentException("Weight input should not be empty or contain null.");
 		}
-		for(int j = this.cars.length; j < this.cars.length + weights.length; j++){
-			temp[j] = weights[j-this.cars.length];
+		
+		for(int i = 0; i < weights.length; i++) {
+			if(weights[i] < 0) {
+				throw new IllegalArgumentException("Weights cannot be negative.");
+			}
 		}
-		this.cars = temp;
+		
+		if(this.cars == null || this.cars.length <= 0) {
+			int[] temp = new int[weights.length];
+			this.cars = temp;		
+			System.arraycopy(weights, 0, this.cars, 0, weights.length);
+		}
+		else {
+			int[] temp = new int[this.cars.length + weights.length];
+			this.cars = temp;
+			System.arraycopy(weights, 0, this.cars, this.cars.length - weights.length, weights.length);
+		}
+
+
 	}
 	
 	public void mergeTrains(Train other){
@@ -110,8 +132,8 @@ public class Train {
 			//Adding power from other train to the current train, and setting the other train's power to zezro
 			this.power += other.power;
 			other.setPower(0);
-			addCars(other.cars);
-			removeAllCars();
+			this.addCars(other.cars);
+			other.removeAllCars();
 		}
 	}
 
