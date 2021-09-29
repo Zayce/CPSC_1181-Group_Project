@@ -39,10 +39,15 @@
 	}
 	
 	/**
-	 * set the name for train object
+	 * set the name for train object, cannot be null or empty  string
 	 **/
 	public void setName(String n) {
-		this.name = n;
+		if (n == "" || n == null) {
+			throw new IllegalArgumentException("Invalid name");
+		}
+		else {
+			this.name = n;
+		}
 	}
 	
 	/**
@@ -53,10 +58,15 @@
 	}
 	
 	/**
-	 * set the power for train object
+	 * set the power for train object, cannot be negative
 	 **/
 	public void setPower(int p) {
-		this.power = p;
+		if (p < 0) {
+			throw new IllegalArgumentException("Power must not be negative");
+		}
+		else {
+			this.power = p;
+		}
 	}
 	
 	

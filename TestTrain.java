@@ -38,7 +38,7 @@ public class TestTrain{
 	}
 
 	@Test
-	void testGetSetName() {
+	void testGetName() {
 		Train thomas = new Train("Thomas",40);
 		assertEquals("Thomas", thomas.getName());
 		
@@ -49,9 +49,32 @@ public class TestTrain{
 		assertEquals("Gordon", gordon.getName());
 		
 	}
+	
+	@Test
+	void testSetName() {
+		try {
+			Train emily = new Train("Emily", 20);
+			emily.setName(null);
+			fail("Expected an Illegal Argument exception");
+		}	catch(IllegalArgumentException e) {
+				assertEquals("Invalid name", e.getMessage());
+		}
+		
+		try {
+			Train thomas = new Train("Thomas", 20);
+			thomas.setName("");
+			fail("Expected an Illegal Argument exception");
+		}	catch(IllegalArgumentException e) {
+				assertEquals("Invalid name", e.getMessage());
+		}
+		
+		Train percy = new Train("Percy", 10);
+		percy.setName("PERCY");
+		assertEquals("PERCY", percy.getName());
+	}
 
 	@Test
-	void testGetSetPower(){
+	void testGetPower(){
 		Train thomas = new Train("Thomas",40);
 		assertEquals(40, thomas.getPower());
 		
@@ -60,6 +83,23 @@ public class TestTrain{
 		
 		Train gordon = new Train("Gordon", 30);
 		assertEquals(30, gordon.getPower());
+	}
+	
+	@Test
+	void testSetPower() {
+		try {
+			Train emily = new Train("Emily", 20);
+			emily.setPower(-100);
+			fail("Expected an Illegal Argument exception");
+		}	catch(IllegalArgumentException e) {
+				assertEquals("Power must not be negative", e.getMessage());
+		}
+		
+		Train percy = new Train("Percy", 10);
+		percy.setPower(0);
+		assertEquals(0, percy.getPower());
+		percy.setPower(100);
+		assertEquals(100, percy.getPower());
 	}
 	
 	@Test 
