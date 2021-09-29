@@ -10,10 +10,17 @@ public class Train {
 	
 	private String name;
 	private int power;
-	private int[] cars = new int[0];	// Each freight car is represented by an integer representing how many tons that it weighs
+	private int[] cars = new int[0];
 	
 	final int MAX_SPEED = 150;
 	
+	/**
+	 * Constructor for train class
+	 * @param: n = name of the train
+	 * 		   p = power of the train
+	 * @return: no return value, only intializes the train class. 
+	 * 			Throws an error if name is empty or null. Throws another error if power is negative. 
+	 */
 	public Train (String n,  int p) {
 		if((n == "") || (n == null)){
 			throw new IllegalArgumentException("String should not be empty or contain null.");
@@ -26,10 +33,20 @@ public class Train {
 		this.power = p;
 	}
 		
+	/**
+	 * Getter for name.
+	 * @param: no parameters.
+	 * @return: name of the train in string format.
+	 */
 	public String getName() {
 		return name;
 	}
 	
+	/**
+	 * Setter for name
+	 * @param: n = name of the train.
+	 * @return: void. Throws an exception if string is null or empty.
+	 */
 	public void setName(String n) {
 		if (n == null || n.equals("")) {
 			throw new IllegalArgumentException("Name should not be null or empty.");
@@ -39,10 +56,20 @@ public class Train {
 		}
 	}
 	
+	/**
+	 * Getter for power
+	 * @param: none
+	 * @return: integer of the train's power.
+	 */
 	public int getPower() {
 		return power;
 	}
 	
+	/**
+	 * Setter for name
+	 * @param: p = power of the train.
+	 * @return: void. Throws an exception if power given is negative
+	 */
 	public void setPower(int p) {
 		if (p < 0) {
 			throw new IllegalArgumentException("Power can't be negative.");
@@ -54,9 +81,10 @@ public class Train {
 	
 	/**
 	 * 	Shows the total weights of the freight cars in a train in tonnes
+	 * 	@param: weightSum = THe sum of weighs.
 	 * 	@returns Returns total weight of cars in a trains.
-	 * 			 Returns 0 if given null or () empty arguments.
-	 **/ 		
+	 * 			 Returns 0 if given null or empty arguments.
+	 */ 		
 	public int getTotalWeightOfCars(){
 		int weightSum = 0;	
 		
@@ -71,6 +99,11 @@ public class Train {
 		return weightSum;
 	}
 
+	/**
+	 * Getter for number of cars
+	 * @param: none
+	 * @return: The number of cars in intgers. Returns 0 if this.cars is null or it has length zero or less.
+	 */
 	public int getNumberOfCars(){
 		if ((this.cars == null) || (this.cars.length <= 0)){
 			return 0;
@@ -80,6 +113,13 @@ public class Train {
 		}
 	}
     
+	/**
+	 * Calculates the maximum speed allowed from ths total weight of cars with some restrictions.
+	 * @param: speed = integer that calculates the maximum speed allowed by finding the difference between power and total weight.
+	 * @return: Returns zero if the difference of power and total weight of cars is zero.
+	 * 			Returns MAX_SPEED = 150 if the the diference of poewr and total weight of cars is greater than 150.
+	 * 			Returns the difference between power and total of cars if it is more than zero and less than 150.
+	 */
 	public int getMaxSpeed(){
 		int speed = this.power - this.getTotalWeightOfCars();
 		if (speed <= 0) {
@@ -93,6 +133,11 @@ public class Train {
 		}
 	}
 	
+	/**
+	 * Summarizes the contents of train and outputs it to a string.
+	 * @param: none
+	 * @return: returns a string that summarizes the attribues of the Train object.
+	 */
 	@Override
 	public String toString(){
 		return(
@@ -100,11 +145,22 @@ public class Train {
 		"It has " + this.getNumberOfCars() + " cars that weighs " + this.getTotalWeightOfCars() + " tons in total.");
 	}
 
+	/**
+	 * Removes all cars from a train object.
+	 * @param tempEmptyArray = new empty array with size 0.
+	 * @return: void.
+	 **/
 	public void removeAllCars(){
 		int[] tempEmptyArray = new int[0];
 		this.cars = tempEmptyArray;
 	}
 
+	/**
+	 * Adds weights of cars in variable length 
+	 * @param weights: variable length array of integers that indicates the weights of each car.
+	 * @return Throws an illegal argument exception if weights array is null or has length of zero or less.
+	 * 		   Throws an illegal argument exception if any of the values in the weights array is negative.
+	 */
 	public void addCars(int... weights){
 		if((weights == null) || (weights.length <= 0)){
 			throw new IllegalArgumentException("Weight input should not be empty or contain null.");
@@ -127,13 +183,15 @@ public class Train {
 		}
 	}
 	
+	/**
+	 * Merges two trains, by transferring all power and cars of the other train to this train.
+	 * @param other = Train object that will transfer power and cars to this train.
+	 * @return void.
+	 */
 	public void mergeTrains(Train other){
-		if ((other.cars.length <= 0) || (other != null)){
-			//Adding power from other train to the current train, and setting the other train's power to zezro
-			this.setPower(this.power + other.power);
-			other.setPower(0);
-			this.addCars(other.cars);
-			other.removeAllCars();
-		}
+		this.setPower(this.power + other.power);
+		other.setPower(0);
+		this.addCars(other.cars);
+		other.removeAllCars();
 	}
 }
