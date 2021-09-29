@@ -94,9 +94,9 @@
 	}
     /**
      * Shows the max speed of the train
-     * @return Returns 0 if the speed is less than 0
+     * @return Returns the speed
      * 		   Retunrs 150 if the speed is higher than MAX_SPEED
-     *         Returns the speed
+     *         Returns 0 if the speed is less than 0
      **/
 	public int getMaxSpeed(){
 		int speed = this.power - this.getTotalWeightOfCars();
