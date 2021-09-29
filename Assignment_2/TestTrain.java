@@ -3,11 +3,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 /**
- * 
  * A class for testing the methods of the Train class behave
  * as expected.
  * See: http://junit.sourceforge.net/javadoc/org/junit/Assert.html
  * For more JUnit Assertion Statements
+ * 
+ * @author Zulhelmi (Zoella) Mohamad
+ * @author Chendong (Oliver) Zhu
  **/
 
 public class TestTrain{
@@ -223,5 +225,3 @@ public class TestTrain{
 		assertEquals(0, percy.getMaxSpeed());
 	}
 }
-
-

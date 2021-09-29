@@ -35,7 +35,6 @@ public class Train {
 		
 	/**
 	 * Getter for name.
-	 * @param: no parameters.
 	 * @return: name of the train in string format.
 	 */
 	public String getName() {
@@ -58,8 +57,7 @@ public class Train {
 	
 	/**
 	 * Getter for power
-	 * @param: none
-	 * @return: integer of the train's power.
+	 * @return: Power of the train in integer.
 	 */
 	public int getPower() {
 		return power;
@@ -81,7 +79,6 @@ public class Train {
 	
 	/**
 	 * 	Shows the total weights of the freight cars in a train in tonnes
-	 * 	@param: weightSum = THe sum of weighs.
 	 * 	@returns Returns total weight of cars in a trains.
 	 * 			 Returns 0 if given null or empty arguments.
 	 */ 		
@@ -101,8 +98,8 @@ public class Train {
 
 	/**
 	 * Getter for number of cars
-	 * @param: none
-	 * @return: The number of cars in intgers. Returns 0 if this.cars is null or it has length zero or less.
+	 * @return: The number of cars in intgers. 
+	 * 			Returns 0 if this.cars is null or it has length zero or less.
 	 */
 	public int getNumberOfCars(){
 		if ((this.cars == null) || (this.cars.length <= 0)){
@@ -114,11 +111,12 @@ public class Train {
 	}
     
 	/**
-	 * Calculates the maximum speed allowed from ths total weight of cars with some restrictions.
-	 * @param: speed = integer that calculates the maximum speed allowed by finding the difference between power and total weight.
-	 * @return: Returns zero if the difference of power and total weight of cars is zero.
-	 * 			Returns MAX_SPEED = 150 if the the diference of poewr and total weight of cars is greater than 150.
-	 * 			Returns the difference between power and total of cars if it is more than zero and less than 150.
+	 * Calculates the maximum speed in km/h from ths total weight of cars with some restrictions.
+	 * @param: speed = integer that calculates the maximum speed allowed by 
+	 * 				   finding the difference between power and total weight.
+	 * @return: Returns zero if the speed is less than zero.
+	 * 			Returns MAX_SPEED = 150 if the speed is greater than 150.
+	 * 			Returns the speed if it is more than zero and less than 150.
 	 */
 	public int getMaxSpeed(){
 		int speed = this.power - this.getTotalWeightOfCars();
@@ -135,7 +133,6 @@ public class Train {
 	
 	/**
 	 * Summarizes the contents of train and outputs it to a string.
-	 * @param: none
 	 * @return: returns a string that summarizes the attribues of the Train object.
 	 */
 	@Override
@@ -147,7 +144,6 @@ public class Train {
 
 	/**
 	 * Removes all cars from a train object.
-	 * @param tempEmptyArray = new empty array with size 0.
 	 * @return: void.
 	 **/
 	public void removeAllCars(){
