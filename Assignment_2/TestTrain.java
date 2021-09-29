@@ -4,11 +4,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * 
-<<<<<<< HEAD
  * A class for testing the methods of the Train class behave
-=======
- * A class for testing the methods of the Calculator class behave
->>>>>>> bf8788641619ad6c101819edb4cc77cb15a9e265
  * as expected.
  * See: http://junit.sourceforge.net/javadoc/org/junit/Assert.html
  * For more JUnit Assertion Statements
@@ -18,13 +14,10 @@ public class TestTrain{
 
 	@Test
 	void testTrain() {
-<<<<<<< HEAD
 		Train albert = new Train("Albert", 130);
 		assertEquals("Albert", albert.getName());
 		assertEquals(130, albert.getPower());
 		
-=======
->>>>>>> bf8788641619ad6c101819edb4cc77cb15a9e265
 		try {
 			Train testTrain1 = new Train(null,0);
 			fail("Expected an Illegal Argument exception");
@@ -45,17 +38,12 @@ public class TestTrain{
 		}	catch(IllegalArgumentException e) {
 				assertEquals("Power should not be negative.", e.getMessage());
 		}
-<<<<<<< HEAD
-=======
-
->>>>>>> bf8788641619ad6c101819edb4cc77cb15a9e265
 	}
 
 	@Test
 	void testGetSetName() {
 		Train thomas = new Train("Thomas",40);
 		assertEquals("Thomas", thomas.getName());
-<<<<<<< HEAD
 		thomas.setName("Tommy");
 		assertEquals("Tommy", thomas.getName());
 		
@@ -76,22 +64,12 @@ public class TestTrain{
 		}catch(IllegalArgumentException e) {
 			assertEquals("Name should not be null or empty.", e.getMessage());
 		}
-=======
-		
-		Train percy = new Train("Percy", 20);
-		assertEquals("Percy", percy.getName());
-		
-		Train gordon = new Train("Gordon", 30);
-		assertEquals("Gordon", gordon.getName());
-		
->>>>>>> bf8788641619ad6c101819edb4cc77cb15a9e265
 	}
 
 	@Test
 	void testGetSetPower(){
 		Train thomas = new Train("Thomas",40);
 		assertEquals(40, thomas.getPower());
-<<<<<<< HEAD
 		thomas.setPower(50);
 		assertEquals(50, thomas.getPower());
 
@@ -120,14 +98,6 @@ public class TestTrain{
 		
 		Train peter = new Train("Peter", 32);
 		assertEquals(0, peter.getTotalWeightOfCars());
-=======
-		
-		Train percy = new Train("Percy", 20);
-		assertEquals(20, percy.getPower());
-		
-		Train gordon = new Train("Gordon", 30);
-		assertEquals(30, gordon.getPower());
->>>>>>> bf8788641619ad6c101819edb4cc77cb15a9e265
 	}
 	
 	@Test 
@@ -138,20 +108,12 @@ public class TestTrain{
 		thomas.addCars(34,53);
 		assertEquals(7, thomas.getNumberOfCars());
 
-<<<<<<< HEAD
-=======
-		
->>>>>>> bf8788641619ad6c101819edb4cc77cb15a9e265
 		Train percy = new Train("Percy", 20);
 		assertEquals(0, percy.getNumberOfCars());
 	}
 	
 	@Test
-<<<<<<< HEAD
 	void testGetMaxSpeed(){
-=======
-	void testgetMaxSpeed(){
->>>>>>> bf8788641619ad6c101819edb4cc77cb15a9e265
 		Train toby = new Train("Toby", 100);
 		toby.addCars(12,4,13,19,15);
 		assertEquals(37, toby.getMaxSpeed());
@@ -182,7 +144,6 @@ public class TestTrain{
 	}
 	
 	@Test
-<<<<<<< HEAD
 	void testToString(){
 		Train thomas = new Train("Thomas",40);
 		thomas.addCars(12,34,23,42,1);
@@ -191,8 +152,6 @@ public class TestTrain{
 	}
 	
 	@Test
-=======
->>>>>>> bf8788641619ad6c101819edb4cc77cb15a9e265
 	void testRemoveAllCars(){	
 		Train henry = new Train("Henry", 50);
 		henry.addCars(3, 2, 4, 5, 64, 54);
@@ -204,10 +163,6 @@ public class TestTrain{
 		assertEquals(0, thomas.getNumberOfCars());
 		thomas.removeAllCars();
 		assertEquals(0, thomas.getNumberOfCars());
-<<<<<<< HEAD
-=======
-			
->>>>>>> bf8788641619ad6c101819edb4cc77cb15a9e265
 	}
 	
 	@Test
@@ -232,8 +187,7 @@ public class TestTrain{
 		}	catch(IllegalArgumentException e) {
 				assertEquals("Weight input should not be empty or contain null.", e.getMessage());
 		}
-<<<<<<< HEAD
-		
+
 		try {
 			Train peter = new Train("Peter", 32);
 			assertEquals(0, peter.getTotalWeightOfCars());
@@ -242,8 +196,6 @@ public class TestTrain{
 		}catch(IllegalArgumentException e) {
 			assertEquals("Weights cannot be negative.", e.getMessage());
 		}
-=======
->>>>>>> bf8788641619ad6c101819edb4cc77cb15a9e265
 	}
 	
 	@Test
@@ -267,15 +219,8 @@ public class TestTrain{
 		assertEquals(274, thomas.getTotalWeightOfCars());
 		assertEquals(0, percy.getTotalWeightOfCars());
 		
-<<<<<<< HEAD
 		assertEquals(46, thomas.getMaxSpeed());
 		assertEquals(0, percy.getMaxSpeed());
-=======
-		//test cases for maxspeed for thomas and percy
-
-		
-
->>>>>>> bf8788641619ad6c101819edb4cc77cb15a9e265
 	}
 }
 
