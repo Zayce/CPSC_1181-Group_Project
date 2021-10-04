@@ -8,25 +8,28 @@
 
 
 public class Message {
-	public enum StatusType {unread, read, starred};
-	// unread has value 0, read has value 1, and starred has value 2
 	
 	private String text;
 	private String senderUsername;
 	private String recipientUsername;
 	private StatusType status;
 	private static int messageCount = 0;
+	private static int textLength = 0;
 	
 	/**
 	 * constructor 1
 	 * four values
 	 * **/
 	public Message(String t, String sn, String rn, StatusType s) {
-		this.text = t;
-		this.senderUsername = sn;
-		this.recipientUsername = rn;
-		this.status = s;
+		text = t;
+		senderUsername = sn;
+		recipientUsername = rn;
+		status = s;
+		System.out.println(text + " created!");
 		messageCount++;
+		System.out.println(messageCount + " in C1");
+		textLength += t.length();
+		System.out.println(textLength + " in C1");
 	}
 	
 	/**
@@ -39,7 +42,26 @@ public class Message {
 		this.senderUsername = sn;
 		this.recipientUsername = rn;
 		this.status = StatusType.unread;
+		System.out.println(text + " created!");
 		messageCount++;
+		System.out.println(messageCount + " in C2");
+		textLength += t.length();
+	}
+	
+	/**
+	 * @return the total number of messages
+	 * **/
+	public int getMessageCount() {
+		System.out.println(messageCount + " in get");
+		return messageCount;
+	}
+	
+	/**
+	 * @return the total length of text
+	 * **/
+	public int getTextLenght() {
+		System.out.println(messageCount + " in get");
+		return textLength;
 	}
 	
 	/**
@@ -74,7 +96,7 @@ public class Message {
 	 * set the status of the message
 	 * **/
 	public void setStatus(StatusType s) {
-		status = s;
+		this.status = s;
 	}
 	
 	/**
@@ -84,11 +106,5 @@ public class Message {
 		return ("From: " + senderUsername + "\nTo: " + recipientUsername + "\nText: " + text + "\nStatus: " + status);
 	}
 	
-	/**
-	 * @return the total number of messages
-	 * **/
-	public int getMessageCount() {
-		return messageCount;
-	}
 
 }
