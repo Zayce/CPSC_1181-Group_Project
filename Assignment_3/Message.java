@@ -9,22 +9,29 @@
 
 public class Message {
 	
+	public enum StatusType {
+		UNREAD, READ, STARRED
+	};
 	private String text;
 	private String senderUsername;
 	private String recipientUsername;
 	private StatusType status;
+	
 	private static int messageCount = 0;
 	private static int textLength = 0;
 	
 	/**
 	 * constructor 1
-	 * four values
+	 * @param t = message text
+	 * 		  sn = Username of the sender.
+	 * 		  rn = Username of the receiver.
+	 * 		  
 	 * **/
 	public Message(String t, String sn, String rn, StatusType s) {
-		text = t;
-		senderUsername = sn;
-		recipientUsername = rn;
-		status = s;
+		this.text = t;
+		this.senderUsername = sn;
+		this.recipientUsername = rn;
+		this.status = s;
 		System.out.println(text + " created!");
 		messageCount++;
 		System.out.println(messageCount + " in C1");
@@ -38,10 +45,7 @@ public class Message {
 	 * 
 	 * **/
 	public Message(String t, String sn, String rn) {
-		this.text = t;
-		this.senderUsername = sn;
-		this.recipientUsername = rn;
-		this.status = StatusType.unread;
+		this(t, sn, rn, StatusType.UNREAD);
 		System.out.println(text + " created!");
 		messageCount++;
 		System.out.println(messageCount + " in C2");
