@@ -11,7 +11,9 @@ import org.junit.jupiter.api.Test;
 
 class TestMessage {
 
-	Message m1 = new Message("Hello!", "Olie", "Zoey", StatusType.unread);
+	Message m1 = new Message("Hello!", "Olie", "Zoey", StatusType.UNREAD);
+	Message m2 = new Message("Hi", "Olie", "Zoey");
+
 	//System.out.println("m1 created!");
 	
 	@Test
@@ -41,13 +43,13 @@ class TestMessage {
 	
 	@Test
 	void testStatus() {
-		assertEquals(StatusType.unread, m1.getStatus());
+		assertEquals(StatusType.UNREAD, m1.getStatus());
 	}
 	
 	@Test
 	void testSetStatus() {
-		m1.setStatus(StatusType.read);
-		assertEquals(StatusType.read, m1.getStatus());
+		m1.setStatus(StatusType.READ);
+		assertEquals(StatusType.READ, m1.getStatus());
 	}
 	
 
