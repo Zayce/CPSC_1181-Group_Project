@@ -9,9 +9,7 @@
 
 public class Message {
 	
-	public enum StatusType {
-		UNREAD, READ, STARRED
-	};
+	public enum StatusType {UNREAD, READ, STARRED};
 	private String text;
 	private String senderUsername;
 	private String recipientUsername;
@@ -21,7 +19,7 @@ public class Message {
 	private static int textLength = 0;
 	
 	/**
-	 * constructor 1
+	 * Message constructor with 4 parameters
 	 * @param t = message text
 	 * 		  sn = Username of the sender.
 	 * 		  rn = Username of the receiver.
@@ -40,9 +38,11 @@ public class Message {
 	}
 	
 	/**
-	 * constructor 2
-	 * 3 values
+	 * Message constructor with 3 parameters
 	 * 
+	 * @param 	t: text
+	 * 			sn: Sender username
+	 * 			rn: Receiver username
 	 * **/
 	public Message(String t, String sn, String rn) {
 		this(t, sn, rn, StatusType.UNREAD);
@@ -63,7 +63,7 @@ public class Message {
 	/**
 	 * @return the total length of text
 	 * **/
-	public int getTextLenght() {
+	public int getTextLength() {
 		System.out.println(messageCount + " in get");
 		return textLength;
 	}
@@ -106,6 +106,7 @@ public class Message {
 	/**
 	 * @return a string with all data
 	 * **/
+	@Override
 	public String toString() {
 		return ("From: " + senderUsername + "\nTo: " + recipientUsername + "\nText: " + text + "\nStatus: " + status);
 	}

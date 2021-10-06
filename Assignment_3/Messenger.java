@@ -12,6 +12,10 @@ public class Messenger {
 	private ArrayList<String> userNames =  new ArrayList<String>();
 	private ArrayList<Message> messagesList =  new ArrayList<Message>();
 	
+	public Messenger(){
+		
+	}
+	
 	/**
 	 * Adds a username into the userNames arraylist. Adds nothing if the username is already in the arraylist and returns voids.
 	 *
@@ -37,19 +41,54 @@ public class Messenger {
 	void sendMessage(String sender, String receiver, String text) {
 		if(userNames.contains(sender) || userNames.contains(sender)) {
 			Message msg = new Message(text, sender, receiver, StatusType.UNREAD);
+			messagesList.add(msg);
 		}
 		else {
 			throw new IllegalArgumentException("Either sender or receiver doesn't exist.");
 		}
 	}
 	
+	/**
+	 * Gets an arraylist of messages that a receiver receives and sets the status type of their message to read if it is unread.
+	 * 
+	 * @param receiver: Receiver username.
+	 * @return Returns a Message Arraylist that contains messages sent to receiever username
+	 */
 	ArrayList<Message> getReceivedMessages(String receiver){
-		
+		userNames.contains(receiver);
+		ArrayList<Message> rcvdMsgList =  new ArrayList<Message>();
+		for(Message msg : messagesList) {
+			if(receiver.equals(msg.getRecipientUsername())) {
+				Message rcvdMsg = new Message(msg.getText(), msg.getSenderUsername(), msg.getRecipientUsername(), msg.getStatus());
+				rcvdMsgList.add(rcvdMsg);
+				if(rcvdMsg.getStatus() == StatusType.UNREAD) {
+					rcvdMsg.setStatus(StatusType.READ);
+				}
+			}
+		}
+		return rcvdMsgList;
 	}
 	
+	/**
+	 * Gets an arraylist of messages that a receiver receives which is of type s 
+	 * and sets the status type of their message to read if it is unread.
+	 * 
+	 * @param 	receiver: Receiver username.
+	 * 			s: status
+	 * @return Returns a Message Arraylist that contains messages sent to receiever username
+	 */
 	ArrayList<Message> getReceivedMessages(String receiver, StatusType s){
-		
+		userNames.contains(receiver);
+		ArrayList<Message> rcvdMsgList =  new ArrayList<Message>();
+		for(Message msg : messagesList) {
+			if((receiver.equals(msg.getRecipientUsername())) && (msg.getStatus() == s)) {
+				Message rcvdMsg = new Message(msg.getText(), msg.getSenderUsername(), msg.getRecipientUsername(), msg.getStatus());
+				rcvdMsgList.add(rcvdMsg);
+				if(rcvdMsg.getStatus() == StatusType.UNREAD) {
+					rcvdMsg.setStatus(StatusType.READ);
+				}
+			}
+		}
+		return rcvdMsgList;
 	}
-	
-	
 }
