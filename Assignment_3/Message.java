@@ -13,6 +13,7 @@ public class Message {
 	private String text;
 	private String senderUsername;
 	private String recipientUsername;
+	
 	private StatusType status;
 	
 	private static int messageCount = 0;
@@ -30,11 +31,11 @@ public class Message {
 		this.senderUsername = sn;
 		this.recipientUsername = rn;
 		this.status = s;
-		System.out.println(text + " created!");
+		//System.out.println(text + " created!");
 		messageCount++;
-		System.out.println(messageCount + " in C1");
+		//System.out.println(messageCount + " in C1");
 		textLength += t.length();
-		System.out.println(textLength + " in C1");
+		//System.out.println(textLength + " in C1");
 	}
 	
 	/**
@@ -45,10 +46,13 @@ public class Message {
 	 * 			rn: Receiver username
 	 * **/
 	public Message(String t, String sn, String rn) {
-		this(t, sn, rn, StatusType.UNREAD);
-		System.out.println(text + " created!");
+		this.text = t;
+		this.senderUsername = sn;
+		this.recipientUsername = rn;
+		this.status = StatusType.unread;
+		//System.out.println(text + " created!");
 		messageCount++;
-		System.out.println(messageCount + " in C2");
+		//System.out.println(messageCount + " in C2");
 		textLength += t.length();
 	}
 	
@@ -56,7 +60,7 @@ public class Message {
 	 * @return the total number of messages
 	 * **/
 	public int getMessageCount() {
-		System.out.println(messageCount + " in get");
+		//System.out.println(messageCount + " in get");
 		return messageCount;
 	}
 	
