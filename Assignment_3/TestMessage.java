@@ -30,13 +30,13 @@ class TestMessage {
 	
 	@Test
 	void testStatus() {
-		assertEquals(Message.StatusType.unread, m1.getStatus());
+		assertEquals(Message.StatusType.UNREAD, m1.getStatus());
 	}
 	
 	@Test
 	void testSetStatus() {
-		m1.setStatus(Message.StatusType.read);
-		assertEquals(Message.StatusType.read, m1.getStatus());
+		m1.setStatus(Message.StatusType.READ);
+		assertEquals(Message.StatusType.READ, m1.getStatus());
 	}
 	
 

@@ -12,6 +12,9 @@ public class Messenger {
 	private ArrayList<String> userNames =  new ArrayList<String>();
 	private ArrayList<Message> messagesList =  new ArrayList<Message>();
 	
+//	// new array of strings
+//	private ArrayList<String> 
+	
 	public Messenger(){
 		
 	}
@@ -90,5 +93,21 @@ public class Messenger {
 			}
 		}
 		return rcvdMsgList;
+	}
+	
+	/**
+	 * send smile
+	 * **/
+	public void sendsmile(String from, String to) {
+		SmileMessage smile = new SmileMessage(from, to);
+		messagesList.add(smile);
+
+	}
+	
+	/**
+	 * a getter for the user ArrayList
+	 * **/
+	public ArrayList<Message> getMessage(){
+		return this.messagesList;
 	}
 }

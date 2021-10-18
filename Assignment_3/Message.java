@@ -49,7 +49,7 @@ public class Message {
 		this.text = t;
 		this.senderUsername = sn;
 		this.recipientUsername = rn;
-		this.status = StatusType.unread;
+		this.status = StatusType.UNREAD;
 		//System.out.println(text + " created!");
 		messageCount++;
 		//System.out.println(messageCount + " in C2");
