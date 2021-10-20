@@ -112,7 +112,7 @@ public class Message {
 	 * **/
 	@Override
 	public String toString() {
-		return ("From: " + senderUsername + "\nTo: " + recipientUsername + "\nText: " + text + "\nStatus: " + status);
+		return ("\nFrom: " + senderUsername + "\nTo: " + recipientUsername + "\nStatus: " + status + "\nText: " +  text);
 	}
 	
 

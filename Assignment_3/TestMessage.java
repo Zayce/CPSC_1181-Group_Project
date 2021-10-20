@@ -1,7 +1,13 @@
+/**
+ * @author Chendong (Oliver) Zhu
+ * @author Zulhelmi (Zoella) Mohamad
+ */
+
+
 import static org.junit.jupiter.api.Assertions.*;
 /**
  * 
- * A class for testing the methods of the Calculator class behave
+ * A class for testing the methods of the Message class behave
  * as expected.
  * See: http://junit.sourceforge.net/javadoc/org/junit/Assert.html
  * For more JUnit Assertion Statements

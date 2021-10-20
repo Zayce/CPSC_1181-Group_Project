@@ -1,3 +1,9 @@
+/**
+ * @author Chendong (Oliver) Zhu
+ * @author Zulhelmi (Zoella) Mohamad
+ */
+
+
 import java.util.Scanner;
 
 public abstract class UserEntry {

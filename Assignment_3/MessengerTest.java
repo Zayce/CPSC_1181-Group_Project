@@ -1,6 +1,6 @@
-import static org.junit.jupiter.api.Assertions.*;
+//import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.Test;
 
 /**
  * @author Zulhelmi (Zoella) Mohamad
@@ -15,22 +15,17 @@ class MessengerTest {
 	 * 
 	 * @return nothing but outputs the Messages received between Zoey and Oliver.
 	 */
-	@Test
-	public static int main() {
+//	@Test
+	public static void main(String args[]) {
 		Messenger fb = new Messenger();
 		fb.addUser("Zoey");
 		fb.addUser("Oliver");
 		fb.sendMessage("Zoey", "Oliver", "Foo");
 		fb.sendMessage("Zoey", "Oliver", "Bar");
-		
 		fb.sendMessage("Oliver", "Zoey", "Marco Polo");
 		
-		fb.getReceivedMessages("Zoey");
-		cout << fb.toString() << endl;
-
-		fb.getReceivedMessages("Oliver", StatusType.STARRED); //should not return anything
-		cout << fb.toString() << endl;
-
+		System.out.println(fb.getReceivedMessages("Zoey"));
+		System.out.println(fb.getReceivedMessages("Oliver", Message.StatusType.UNREAD).toString());
 		
 	}
 

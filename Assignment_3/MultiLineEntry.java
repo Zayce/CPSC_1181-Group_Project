@@ -1,3 +1,8 @@
+/**
+ * @author Chendong (Oliver) Zhu
+ * @author Zulhelmi (Zoella) Mohamad
+ */
+
 import java.util.Scanner;
 
 public class MultiLineEntry extends UserEntry{
@@ -9,8 +14,8 @@ public class MultiLineEntry extends UserEntry{
 	public String getUserResponse() {
 		String response = "";
 		
-		// display the user prompt
-		System.out.println("The user select: " + prompt);
+		// Displays the user prompt
+		System.out.println(prompt);
 		
 		// take the input
 		String thisLine = input.nextLine();

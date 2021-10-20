@@ -27,7 +27,7 @@ public class Messenger {
 	 */
 	void addUser(String username) {
 		if(userNames.contains(username)) {
-			return void;
+			return;
 		}else {
 			userNames.add(username);
 		}
@@ -43,7 +43,7 @@ public class Messenger {
 	 */
 	void sendMessage(String sender, String receiver, String text) {
 		if(userNames.contains(sender) || userNames.contains(sender)) {
-			Message msg = new Message(text, sender, receiver, StatusType.UNREAD);
+			Message msg = new Message(text, sender, receiver, Message.StatusType.UNREAD);
 			messagesList.add(msg);
 		}
 		else {
@@ -57,15 +57,15 @@ public class Messenger {
 	 * @param receiver: Receiver username.
 	 * @return Returns a Message Arraylist that contains messages sent to receiever username
 	 */
-	ArrayList<Message> getReceivedMessages(String receiver){
+	public ArrayList<Message> getReceivedMessages(String receiver){
 		userNames.contains(receiver);
 		ArrayList<Message> rcvdMsgList =  new ArrayList<Message>();
 		for(Message msg : messagesList) {
 			if(receiver.equals(msg.getRecipientUsername())) {
 				Message rcvdMsg = new Message(msg.getText(), msg.getSenderUsername(), msg.getRecipientUsername(), msg.getStatus());
 				rcvdMsgList.add(rcvdMsg);
-				if(rcvdMsg.getStatus() == StatusType.UNREAD) {
-					rcvdMsg.setStatus(StatusType.READ);
+				if(rcvdMsg.getStatus() == Message.StatusType.UNREAD) {
+					rcvdMsg.setStatus(Message.StatusType.READ);
 				}
 			}
 		}
@@ -80,15 +80,15 @@ public class Messenger {
 	 * 			s: status
 	 * @return Returns a Message Arraylist that contains messages sent to receiever username
 	 */
-	ArrayList<Message> getReceivedMessages(String receiver, StatusType s){
+	public ArrayList<Message> getReceivedMessages(String receiver, Message.StatusType s){
 		userNames.contains(receiver);
 		ArrayList<Message> rcvdMsgList =  new ArrayList<Message>();
 		for(Message msg : messagesList) {
 			if((receiver.equals(msg.getRecipientUsername())) && (msg.getStatus() == s)) {
 				Message rcvdMsg = new Message(msg.getText(), msg.getSenderUsername(), msg.getRecipientUsername(), msg.getStatus());
 				rcvdMsgList.add(rcvdMsg);
-				if(rcvdMsg.getStatus() == StatusType.UNREAD) {
-					rcvdMsg.setStatus(StatusType.READ);
+				if(rcvdMsg.getStatus() == Message.StatusType.UNREAD) {
+					rcvdMsg.setStatus(Message.StatusType.READ);
 				}
 			}
 		}
@@ -98,16 +98,17 @@ public class Messenger {
 	/**
 	 * send smile
 	 * **/
-	public void sendsmile(String from, String to) {
+	public void sendSmile(String from, String to) {
 		SmileMessage smile = new SmileMessage(from, to);
 		messagesList.add(smile);
-
 	}
 	
 	/**
 	 * a getter for the user ArrayList
+	 * 
+	 * @return MessageList arraylist
 	 * **/
-	public ArrayList<Message> getMessage(){
-		return this.messagesList;
+	public ArrayList<String> getUserList(){
+		return this.userNames;
 	}
 }

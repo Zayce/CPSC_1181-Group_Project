@@ -1,11 +1,18 @@
+/**
+ * @author Chendong (Oliver) Zhu
+ * @author Zulhelmi (Zoella) Mohamad
+ */
 
 public class SmileMessage extends Message{
-	private String smileText = "This is smile.";
+	private final static String SMILE = 
+			" @  @ \n" +
+			" 	   \n" + 
+			"@    @\n" +
+			" @  @ \n" +
+			"  @@  \n";
 	
 	public SmileMessage(String from, String to) {
-		super(this.smileText, from, to);
-		//this.t = "This is a smile.";
-		
+		super(SMILE, from, to);
 	}
 
 }
