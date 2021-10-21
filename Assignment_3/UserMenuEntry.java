@@ -28,13 +28,14 @@ public class UserMenuEntry extends UserEntry {
 		do{
 			System.out.print(this.prompt);
 			userInput = super.input.nextInt();
+			super.input.nextLine();
 			if( 0 <= userInput && userInput <= this.options.size() - 1) {
 				isValidInput = true;
 				System.out.println("User chose: " +  this.options.get(userInput) + "\n");
 			}
 		} while (isValidInput == false);
 		
-		
-		return String.valueOf(userInput); //this.options.get(userInput)
+
+		return this.options.get(userInput); //this.options.get(userInput)
 	}
 }

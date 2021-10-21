@@ -9,14 +9,15 @@ import java.util.ArrayList;
 
 public class Messenger {
 
-	private ArrayList<String> userNames =  new ArrayList<String>();
-	private ArrayList<Message> messagesList =  new ArrayList<Message>();
+	private ArrayList<String> userNames;
+	private ArrayList<Message> messagesList;
 	
 //	// new array of strings
 //	private ArrayList<String> 
 	
 	public Messenger(){
-		
+		this.userNames = new ArrayList<String>();
+		this.messagesList =  new ArrayList<Message>();
 	}
 	
 	/**
@@ -43,8 +44,8 @@ public class Messenger {
 	 */
 	void sendMessage(String sender, String receiver, String text) {
 		if(userNames.contains(sender) || userNames.contains(sender)) {
-			Message msg = new Message(text, sender, receiver, Message.StatusType.UNREAD);
-			messagesList.add(msg);
+			Message msg = new Message(text, sender, receiver);
+			this.messagesList.add(msg);
 		}
 		else {
 			throw new IllegalArgumentException("Either sender or receiver doesn't exist.");
@@ -58,14 +59,21 @@ public class Messenger {
 	 * @return Returns a Message Arraylist that contains messages sent to receiever username
 	 */
 	public ArrayList<Message> getReceivedMessages(String receiver){
-		userNames.contains(receiver);
+		if(!userNames.contains(receiver)) {
+			System.out.println(receiver);
+			throw new IllegalArgumentException("Receiver not in username list"); 
+		}		
+		
+		if(this.messagesList.isEmpty()) {
+			return null;
+		}
+		
 		ArrayList<Message> rcvdMsgList =  new ArrayList<Message>();
 		for(Message msg : messagesList) {
 			if(receiver.equals(msg.getRecipientUsername())) {
-				Message rcvdMsg = new Message(msg.getText(), msg.getSenderUsername(), msg.getRecipientUsername(), msg.getStatus());
-				rcvdMsgList.add(rcvdMsg);
-				if(rcvdMsg.getStatus() == Message.StatusType.UNREAD) {
-					rcvdMsg.setStatus(Message.StatusType.READ);
+				rcvdMsgList.add(msg);
+				if(msg.getStatus() == Message.StatusType.UNREAD) {
+					msg.setStatus(Message.StatusType.READ);
 				}
 			}
 		}
@@ -81,20 +89,26 @@ public class Messenger {
 	 * @return Returns a Message Arraylist that contains messages sent to receiever username
 	 */
 	public ArrayList<Message> getReceivedMessages(String receiver, Message.StatusType s){
-		userNames.contains(receiver);
+//		Message rcvdMsg;
+		if(!userNames.contains(receiver)) {
+			System.out.println(receiver);
+			throw new IllegalArgumentException("Receiver not in username list"); 
+		}		
+		
+		if(this.messagesList.isEmpty()) {
+			return null;
+		}
 		ArrayList<Message> rcvdMsgList =  new ArrayList<Message>();
 		for(Message msg : messagesList) {
 			if((receiver.equals(msg.getRecipientUsername())) && (msg.getStatus() == s)) {
-				Message rcvdMsg = new Message(msg.getText(), msg.getSenderUsername(), msg.getRecipientUsername(), msg.getStatus());
-				rcvdMsgList.add(rcvdMsg);
-				if(rcvdMsg.getStatus() == Message.StatusType.UNREAD) {
-					rcvdMsg.setStatus(Message.StatusType.READ);
+				rcvdMsgList.add(msg);
+				if(msg.getStatus() == Message.StatusType.UNREAD) {
+					msg.setStatus(Message.StatusType.READ);
 				}
 			}
 		}
 		return rcvdMsgList;
 	}
-	
 	/**
 	 * send smile
 	 * **/

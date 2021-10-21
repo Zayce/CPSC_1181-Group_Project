@@ -13,16 +13,16 @@ public class MultiLineEntry extends UserEntry{
 	@Override
 	public String getUserResponse() {
 		String response = "";
+		String thisLine;
 		
 		// Displays the user prompt
-		System.out.println(prompt);
+		System.out.print(prompt);
 		
 		// take the input
-		String thisLine = input.nextLine();
-		while (thisLine != "") {
-			response +=  "\n" + thisLine;
+		do {
 			thisLine = input.nextLine();
-		}
+			response +=  thisLine +"\n";
+		} while (!thisLine.equals(""));
 		
 		return response;
 	}
