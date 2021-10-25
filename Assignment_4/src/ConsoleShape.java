@@ -1,9 +1,10 @@
-//Author comments to be added
+/** 
+ * @author Zulhelmi (Zoella) Mohamad
+ * @author Chendong (Oliver) Zhu
+ * 
+ **/
 
-public abstract class ConsoleShape{
-	private int length;
-	private int width;
-	private String colour;
+public abstract class ConsoleShape implements Comparable<ConsoleShape>{
 	private boolean filledIn;
 
 	/**
@@ -13,10 +14,7 @@ public abstract class ConsoleShape{
 		  c: colour of shape
 		  f: If shape is filled
 	 */
-	public ConsoleShape(int l, int w, String c, boolean fI){
-		this.length = l;
-		this.width = w;
-		this.colour = c;
+	public ConsoleShape(boolean fI){
 		this.filledIn = fI;
 	}
 	
@@ -24,36 +22,11 @@ public abstract class ConsoleShape{
 	 * default no name constructor
 	 */
 	public ConsoleShape(){
-		this(1, 1, "White", false);
+		this(false);
 	}
-
-	public int getLength(){
-		return this.length;
-	}
-	
-	public void setLength(int l){
-		this.length = l;
-	}
-
-	public int getWidth(){
-		return this.length;
-	}
-	
-	public void setWidth(int w){
-		this.width = w;
-	}
-
-	public int getColour(){
-		return this.colour;
-	}
-	
-	public void setColour(String c){
-		this.colour = c;
-	}
-
 
 	public boolean getFilledIn(){
-		return this.FilledIn;
+		return this.filledIn;
 	}
 	
 	public void setFilledIn(boolean fI){
@@ -63,11 +36,32 @@ public abstract class ConsoleShape{
 	
 	@Override
 	public String toString(){
-		return "Shape attributes [Length: " + this.length + " | Width: " + this.width + " | Area: " + this.getArea() + " | Perimeter: " + this.getPerimeter() + " | Colour: " + this.colour " | Filled In: " + this.FilledIn;
+		return "Shape attributes | Filled In: " + this.filledIn;
+		//for future
+		//[Length: " + this.length + " | Width: " + this.width + " | Area: " + this.getArea() + " | Perimeter: " + this.getPerimeter() + " | Colour: " + this.colour " 
 	}
 
-	public abstract int getArea();
+	public abstract double getArea();
 	public abstract int getPerimeter();
 	
+	public int compareTo(ConsoleShape other) {
+		if(other == null) {
+			throw new NullPointerException("Other is null"); 
+		}
+		
+		final double EPSILON = 0.000001;
+		double difference = this.getArea() - other.getArea();
+	
+		if((difference > EPSILON)) {
+			return 1;
+		}
+		else if(Math.abs(difference) <= EPSILON) {
+			return 0;
+		}
+		else {
+			return -1;
+		}
+				 
+	}
 
 }
