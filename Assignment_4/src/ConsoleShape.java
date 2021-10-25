@@ -19,7 +19,7 @@ public abstract class ConsoleShape implements Comparable<ConsoleShape>{
 	}
 	
 	/**
-	 * default no name constructor
+	 * Default no name constructor
 	 */
 	public ConsoleShape(){
 		this(false);
@@ -36,9 +36,7 @@ public abstract class ConsoleShape implements Comparable<ConsoleShape>{
 	
 	@Override
 	public String toString(){
-		return "Shape attributes | Filled In: " + this.filledIn;
-		//for future
-		//[Length: " + this.length + " | Width: " + this.width + " | Area: " + this.getArea() + " | Perimeter: " + this.getPerimeter() + " | Colour: " + this.colour " 
+		return "Shape attributes [Filled In: " + this.filledIn + " | Area: " + this.getArea() + " | Perimeter: " + this.getPerimeter(); 
 	}
 
 	public abstract double getArea();
