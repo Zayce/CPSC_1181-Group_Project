@@ -15,14 +15,14 @@ public class ConsoleRectangle extends ConsoleShape {
 	 * 			w: Width of rectangle
 	 * 			h: Height of rectangle
 	 */
-	public ConsoleRectangle(boolean fI, int w, int h) {
+	public ConsoleRectangle(boolean fI, int h, int w) {
 		super(fI);
 
 		//TODO: In final version, we will discuss and choose which case to go for after consulting the Prof
-		if(w <= 0 || h <= 0) {
+		if( h <= 0 || w <= 0 ) {
 			//Case: Converting negative ints to positive
-			w = Math.abs(w);
 			h = Math.abs(h);
+			w = Math.abs(w);
 			//Case: Throwing Argument
 			throw new IllegalArgumentException("Height and weight needs to be a postitive integer.");
 		}
@@ -36,6 +36,24 @@ public class ConsoleRectangle extends ConsoleShape {
 	 */
 	public ConsoleRectangle() {
 		this(false, 1, 1);
+	}
+	
+	/**
+	 * Height of a rectangle in unit of 1 character
+	 * 
+	 * @return Height in integer form
+	 */
+	public int getHeight() {
+		return this.height;
+	}
+	
+	/**
+	 * Sets the height of the rectangle
+	 * 
+	 * @param h: Height of the rectangle
+	 */
+	public void setHeight(int h) {
+		this.height = h;
 	}
 	
 	/**
@@ -55,24 +73,6 @@ public class ConsoleRectangle extends ConsoleShape {
 	public void setWidth(int w) {
 		this.width = w;
 	}
-	
-	/**
-	 * Height of a rectangle in unit of 1 character
-	 * 
-	 * @return Height in integer form
-	 */
-	public int getHeight() {
-		return this.height;
-	}
-	
-	/**
-	 * Sets the height of the rectangle
-	 * 
-	 * @param h: Height of the rectangle
-	 */
-	public void set(int h) {
-		this.height = h;
-	}
 
 	/**
 	 * Calculates area of a rectangle
@@ -88,6 +88,31 @@ public class ConsoleRectangle extends ConsoleShape {
 	@Override
 	public int getPerimeter() {
 		return 2*(this.width + this.height);
+	}
+	
+	/**
+	 * Draws a rectangle and shows it to the console
+	 * 
+	 * @return String that contains "#", " " and "\n" to draw a rectangle of any size and if it is filled.
+	 */
+	public String drawForConsole() {
+		String consoleDrawn = "";
+		boolean isBorder;
+		for(int r = 0; r < height; r++) {
+			for(int c = 0; c < width; c++) {
+				isBorder = ((r == 0 || r == height-1) || (c == 0 || c == width - 1));
+				//We only enter a space character when the row an column is not a filled in shape and it's not on the borders, then # for anything else.
+				if(isBorder || super.isFilledIn()) {
+					consoleDrawn += "#";
+				}
+				else {
+					consoleDrawn += " ";
+				}
+				consoleDrawn += "\n";
+			}
+		}
+		
+		return consoleDrawn;	
 	}
 	
 	/**

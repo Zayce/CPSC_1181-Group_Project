@@ -4,8 +4,8 @@
  * 
  **/
 
-public abstract class ConsoleShape implements Comparable<ConsoleShape>{
-	private boolean filledIn;
+public abstract class ConsoleShape implements Comparable<ConsoleShape>, ConsoleDrawable{
+	private boolean isFilledIn;
 
 	/**
 	 * Constructor with input
@@ -15,7 +15,7 @@ public abstract class ConsoleShape implements Comparable<ConsoleShape>{
 		  f: If shape is filled
 	 */
 	public ConsoleShape(boolean fI){
-		this.filledIn = fI;
+		this.isFilledIn = fI;
 	}
 	
 	/**
@@ -25,22 +25,23 @@ public abstract class ConsoleShape implements Comparable<ConsoleShape>{
 		this(false);
 	}
 
-	public boolean getFilledIn(){
-		return this.filledIn;
+	public boolean isFilledIn(){
+		return this.isFilledIn;
 	}
 	
 	public void setFilledIn(boolean fI){
-		this.filledIn = fI;
+		this.isFilledIn = fI;
 	}
 
 	
 	@Override
 	public String toString(){
-		return "Shape attributes [Filled In: " + this.filledIn + " | Area: " + this.getArea() + " | Perimeter: " + this.getPerimeter(); 
+		return "Shape attributes | Filled In: " + this.isFilledIn + " | Area: " + this.getArea() + " | Perimeter: " + this.getPerimeter(); 
 	}
 
 	public abstract double getArea();
 	public abstract int getPerimeter();
+	public abstract String drawForConsole();
 	
 	public int compareTo(ConsoleShape other) {
 		if(other == null) {

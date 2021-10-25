@@ -6,5 +6,8 @@
  **/
 
 public interface ConsoleDrawable {
+	/** 
+	 * @return String containing ASCII Characters to draw objects on the console
+	 */
 	public String drawForConsole();
 }
