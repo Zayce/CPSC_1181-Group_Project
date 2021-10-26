@@ -3,11 +3,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 /**
- * 
- */
-
-/**
  * @author Zulhelmi (Zoella) Mohamad
+ * @author Chendong (Oliver) Zhu
+ * 
+ * Test To see if ConsoleRectangle works
  *
  */
 class ConsoleRectangleTest {
@@ -17,19 +16,28 @@ class ConsoleRectangleTest {
 	ConsoleRectangle rec1 = new ConsoleRectangle();
 	ConsoleRectangle rec2 = new ConsoleRectangle(true, 2, 3);
 	ConsoleRectangle rec3 = new ConsoleRectangle(false, 5, 7);
+	ConsoleRectangle rec4 = new ConsoleRectangle(true, 8, 14);
+	ConsoleRectangle rec5 = new ConsoleRectangle(true, 14, 8);
 	
 	@Test
 	void testToString(){
 		System.out.println(rec1.toString());
 		System.out.println(rec2.toString());
 		System.out.println(rec3.toString());
+		System.out.println(rec4.toString());
+		System.out.println(rec5.toString());
+
+
 	}
 	
 	@Test
 	void testDrawForConsole(){
-		System.out.println(rec1.drawForConsole());
-		System.out.println(rec2.drawForConsole());
-		System.out.println(rec3.drawForConsole());
+		System.out.println("Rec 1: \n" + rec1.drawForConsole());
+		System.out.println("Rec 2: \n" + rec2.drawForConsole());
+		System.out.println("Rec 3: \n" + rec3.drawForConsole());
+		System.out.println("Rec 4: \n" + rec4.drawForConsole());
+		System.out.println("Rec 5: \n" + rec5.drawForConsole());
+
 	}
 	
 	@Test

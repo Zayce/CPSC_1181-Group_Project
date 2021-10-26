@@ -108,8 +108,8 @@ public class ConsoleRectangle extends ConsoleShape {
 				else {
 					consoleDrawn += " ";
 				}
-				consoleDrawn += "\n";
 			}
+			consoleDrawn += "\n";
 		}
 		
 		return consoleDrawn;	
