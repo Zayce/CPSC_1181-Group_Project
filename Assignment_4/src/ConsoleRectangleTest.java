@@ -18,6 +18,7 @@ class ConsoleRectangleTest {
 	ConsoleRectangle rec3 = new ConsoleRectangle(false, 5, 7);
 	ConsoleRectangle rec4 = new ConsoleRectangle(true, 8, 14);
 	ConsoleRectangle rec5 = new ConsoleRectangle(true, 14, 8);
+	Billboard bts = new Billboard("BTS should have won the Grammys");
 	
 	@Test
 	void testToString(){
@@ -32,11 +33,12 @@ class ConsoleRectangleTest {
 	
 	@Test
 	void testDrawForConsole(){
-		System.out.println("Rec 1: \n" + rec1.drawForConsole());
-		System.out.println("Rec 2: \n" + rec2.drawForConsole());
-		System.out.println("Rec 3: \n" + rec3.drawForConsole());
-		System.out.println("Rec 4: \n" + rec4.drawForConsole());
-		System.out.println("Rec 5: \n" + rec5.drawForConsole());
+//		System.out.println("Rec 1: \n" + rec1.drawForConsole());
+//		System.out.println("Rec 2: \n" + rec2.drawForConsole());
+//		System.out.println("Rec 3: \n" + rec3.drawForConsole());
+//		System.out.println("Rec 4: \n" + rec4.drawForConsole());
+//		System.out.println("Rec 5: \n" + rec5.drawForConsole());
+		System.out.println("BTS: \n" + bts.drawForConsole());
 
 	}
 	
