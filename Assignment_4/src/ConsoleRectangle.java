@@ -3,7 +3,7 @@
  * @author Chendong (Oliver) Zhu
  * 
  * Rectangle in console object
- **/
+ */
 
 public class ConsoleRectangle extends ConsoleShape {
 	
@@ -18,13 +18,12 @@ public class ConsoleRectangle extends ConsoleShape {
 	public ConsoleRectangle(boolean fI, int h, int w) {
 		super(fI);
 
-		//TODO: In final version, we will discuss and choose which case to go for after consulting the Prof
 		if( h <= 0 || w <= 0 ) {
-			//Case: Converting negative ints to positive
+			//Case 1: Converting negative ints to positive
 			h = Math.abs(h);
 			w = Math.abs(w);
-			//Case: Throwing Argument
-			throw new IllegalArgumentException("Height and weight needs to be a postitive integer.");
+			//Case 2: Throwing Argument
+			// throw new IllegalArgumentException("Height and weight needs to be a postitive integer.");
 		}
 		
 		this.width = w;
@@ -57,7 +56,7 @@ public class ConsoleRectangle extends ConsoleShape {
 	}
 	
 	/**
-	 * Width of a rectangle in unit of 1 character
+	 * Gets the Width of the rectangle
 	 * 
 	 * @return width in integer form
 	 */
@@ -76,6 +75,7 @@ public class ConsoleRectangle extends ConsoleShape {
 
 	/**
 	 * Calculates area of a rectangle
+	 * @return Area of rectangle in double data type
 	 */
 	@Override
 	public double getArea() {
@@ -84,6 +84,8 @@ public class ConsoleRectangle extends ConsoleShape {
 
 	/**
 	 * Calculates perimeter of a rectangle
+	 * 
+	 * @return an int of the perimeter of the rectangle.
 	 */
 	@Override
 	public int getPerimeter() {
@@ -110,8 +112,7 @@ public class ConsoleRectangle extends ConsoleShape {
 				}
 			}
 			consoleDrawn += "\n";
-		}
-		
+		}	
 		return consoleDrawn;	
 	}
 	
@@ -122,5 +123,4 @@ public class ConsoleRectangle extends ConsoleShape {
 	public String toString() {
 		return super.toString() + " | Width: " + this.width +  " | Height: " + this.height;
 	}
-
 }
