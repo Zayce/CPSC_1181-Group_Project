@@ -7,12 +7,16 @@ import org.junit.jupiter.api.Test;
  * @author Chendong (Oliver) Zhu
  * 
  * Test To see if ConsoleRectangle works
+ * include Examples
  *
  */
 class ConsoleRectangleTest {
 
 	final double EPSILON = 0.000001;
 	
+	ConsoleRectangle example1 = new ConsoleRectangle(false, 3, 3);
+	ConsoleRectangle example2 = new ConsoleRectangle(true, 5, 5);
+	ConsoleRectangle example3 = new ConsoleRectangle(false, 4, 7);
 	ConsoleRectangle rec1 = new ConsoleRectangle();
 	ConsoleRectangle rec2 = new ConsoleRectangle(true, 2, 3);
 	ConsoleRectangle rec3 = new ConsoleRectangle(false, 5, 7);
@@ -33,8 +37,9 @@ class ConsoleRectangleTest {
 	
 	@Test
 	void testDrawForConsole(){
-//		System.out.println("Rec 1: \n" + rec1.drawForConsole());
-//		System.out.println("Rec 2: \n" + rec2.drawForConsole());
+		System.out.println("Example 1: \n" + example1.drawForConsole());
+		System.out.println("Example 2: \n" + example2.drawForConsole());
+		System.out.println("Example 3: \n" + example3.drawForConsole());
 //		System.out.println("Rec 3: \n" + rec3.drawForConsole());
 //		System.out.println("Rec 4: \n" + rec4.drawForConsole());
 //		System.out.println("Rec 5: \n" + rec5.drawForConsole());
