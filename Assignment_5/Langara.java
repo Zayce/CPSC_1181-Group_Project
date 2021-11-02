@@ -1,9 +1,15 @@
 
 import javafx.application.Application;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Arc;
+import javafx.scene.shape.ArcType;
+import javafx.scene.shape.Ellipse;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -42,10 +48,12 @@ public class Langara extends Application {
 		bldg1.setStrokeWidth(4);
 		bldg2.setStrokeWidth(4);
 
-		root.getChildren().addAll(sky, grass, bldg1, bldg2, langara);
+		Person p1 = new Person(200, 400);
+		
+		root.getChildren().addAll(sky, grass, bldg1, bldg2, langara, p1);
 		
 		Scene scene = new Scene(root, 800, 500);
-		primaryStage.setTitle("Drawing With Shapes");
+		primaryStage.setTitle("Langara");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
@@ -54,6 +62,52 @@ public class Langara extends Application {
 		Application.launch(args);
 	}
 	
+	private class Person extends Group {
+		private Line body;
+		private Polyline arms;
+		private Polyline legs;
+		private Ellipse face;
+		private Arc mouth;
+		private Line leftEye;
+		private Line rightEye;
+		
+		public Person(int x, int y) {
+			body = new Line(x, y, x, y+50);
+			body.setFill(Color.BLACK);
+			body.setStrokeWidth(4);
+			
+			double[] armPoints = {x-20,y+30, x,y+5, x+20,y+30};
+			arms = new Polyline(armPoints);
+			arms.setStroke(Color.BLACK);
+			arms.setStrokeWidth(3);
+			
+			double[] legPoints = {x-20,y+80, x,y+50, x+20,y+80};
+			legs = new Polyline(legPoints);
+			legs.setStroke(Color.BLACK);
+			legs.setStrokeWidth(3);
+			
+			double faceRadius = 10;
+			face = new Ellipse(x, y-faceRadius, faceRadius, faceRadius + 3);
+			face.setFill(Color.rgb(238, 187, 153));
+			face.setStroke(Color.BLACK);
+			face.setStrokeWidth(2);
+			
+			mouth = new Arc(x, y-4, 4, 4, 180, 180);
+			mouth.setType(ArcType.CHORD);
+			mouth.setStroke(Color.BLACK);
+			mouth.setStrokeWidth(2);
+			mouth.setFill(Color.INDIANRED);
+			
+			leftEye = new Line(x-5, y-18, x-5, y-10);
+			rightEye = new Line(x+5, y-18, x+5, y-10);
+			leftEye.setStrokeWidth(1.5);
+			rightEye.setStrokeWidth(1.5);
+
+			this.getChildren().addAll(body, arms, legs, face, mouth, leftEye, rightEye);
+			
+		}
+	
+	}
 	
 
 
