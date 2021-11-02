@@ -1,4 +1,3 @@
-
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -47,10 +46,14 @@ public class Langara extends Application {
 		bldg2.setStroke(Color.BLACK);
 		bldg1.setStrokeWidth(4);
 		bldg2.setStrokeWidth(4);
+		
+		Human h1 = new Human(200, 310, 2, 20);
+		Human h2 = new Human(150, 310, 2, 20);
+		Human h3 = new Human(100, 310, 2, 20);
 
 		Person p1 = new Person(200, 400);
 		
-		root.getChildren().addAll(sky, grass, bldg1, bldg2, langara, p1);
+		root.getChildren().addAll(sky, grass, bldg1, bldg2, langara, p1,h1,h2,h3);
 		
 		Scene scene = new Scene(root, 800, 500);
 		primaryStage.setTitle("Langara");
@@ -107,6 +110,36 @@ public class Langara extends Application {
 			
 		}
 	
+	private class Human extends Group{
+		private Line body;
+		private Ellipse head;
+		private Line leftArm;
+		private Line rightArm;
+		private Arc legs;
+		
+		public Human(int x, int y, int width, int height) {
+			head = new Ellipse(x, y-height/4, height/2, height/4);
+			head.setFill(Color.BLACK);
+			
+			body = new Line(x,y,x,y+height);
+			body.setStroke(Color.BLACK);
+			body.setStrokeWidth(width);
+			
+			leftArm = new Line(x-width/2,y,x-height/2, y+height/2);
+			leftArm.setStroke(Color.BLACK);
+			leftArm.setStrokeWidth(width/2);
+			
+			rightArm = new Line(x+width/2,y,x+height/2, y+height/2);
+			rightArm.setStroke(Color.BLACK);
+			rightArm.setStrokeWidth(width/2);
+			
+			legs = new Arc(x,y+height+height/2,(height+width)/3,height/2,0,180);
+			legs.setType(ArcType.OPEN);
+			legs.setFill(Color.TRANSPARENT);
+			legs.setStroke(Color.BLACK);
+			
+			this.getChildren().addAll(body,head,leftArm,rightArm,legs);
+		}
 	}
 	
 
