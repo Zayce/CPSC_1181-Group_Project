@@ -109,6 +109,7 @@ public class Langara extends Application {
 			this.getChildren().addAll(body, arms, legs, face, mouth, leftEye, rightEye);
 			
 		}
+	}
 	
 	private class Human extends Group{
 		private Line body;
@@ -141,7 +142,4 @@ public class Langara extends Application {
 			this.getChildren().addAll(body,head,leftArm,rightArm,legs);
 		}
 	}
-	
-
-
 }
