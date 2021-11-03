@@ -47,14 +47,16 @@ public class Langara extends Application {
 		bldg1.setStrokeWidth(4);
 		bldg2.setStrokeWidth(4);
 		
-		Human h1 = new Human(200, 310, 2, 30);
-		Human h2 = new Human(150, 310, 2, 30);
-		Human h3 = new Human(100, 310, 2, 30);
+		Human h1 = new Human(200, 310, 2, 20);
+		Human h2 = new Human(150, 310, 2, 20);
+		Human h3 = new Human(100, 310, 2, 20);
 		Human h0 = new Human();
 
-		Person p1 = new Person(200, 400);
+		Person p1 = new Person(100, 400, 1);
+		Person p2 = new Person(200, 200, 2);
+		Person p3 = new Person(450, 400, 0.5);
 		
-		root.getChildren().addAll(sky, grass, bldg1, bldg2, langara, p1,h1,h2,h3, h0);
+		root.getChildren().addAll(sky, grass, bldg1, bldg2, langara, p1, p2, p3, h1, h2, h3, h0);
 		
 		Scene scene = new Scene(root, 800, 500);
 		primaryStage.setTitle("Langara");
@@ -75,41 +77,63 @@ public class Langara extends Application {
 		private Line leftEye;
 		private Line rightEye;
 		
-		public Person(int x, int y) {
-			body = new Line(x, y, x, y+50);
-			body.setFill(Color.BLACK);
-			body.setStrokeWidth(4);
+		
+		/**
+		 * Defined constructor for person
+		 * 
+		 * @param x: x-coordinate
+		 * @param y: y-coordinate 
+		 * @param w: width
+		 * @param h: height
+		 */
+		public Person(int x, int y, double w, double h) {
 			
-			double[] armPoints = {x-20,y+30, x,y+5, x+20,y+30};
+			double strokeWidthScale = (w+h)/2;
+
+			
+			//Starting line of the body is the anchor point when we scale. 
+			body = new Line(x, y, x, y+(h*50));
+			body.setFill(Color.BLACK);
+			body.setStrokeWidth(strokeWidthScale*4);
+			
+			double[] armPoints = {x-(w*20),y+(h*30), x,y+(h*5), x+(w*20),y+(h*30)};
 			arms = new Polyline(armPoints);
 			arms.setStroke(Color.BLACK);
-			arms.setStrokeWidth(3);
+			arms.setStrokeWidth(strokeWidthScale*3);
 			
-			double[] legPoints = {x-20,y+80, x,y+50, x+20,y+80};
+			double[] legPoints = {x-(w*20),y+(h*80), x, y+(h*50), x+(w*20),y+(h*80)};
 			legs = new Polyline(legPoints);
 			legs.setStroke(Color.BLACK);
-			legs.setStrokeWidth(3);
+			legs.setStrokeWidth(strokeWidthScale*3);
 			
 			double faceRadius = 10;
-			face = new Ellipse(x, y-faceRadius, faceRadius, faceRadius + 3);
+			face = new Ellipse(x, y-(h*faceRadius), w*faceRadius, h*(faceRadius + 3));
 			face.setFill(Color.rgb(238, 187, 153));
 			face.setStroke(Color.BLACK);
-			face.setStrokeWidth(2);
+			face.setStrokeWidth(strokeWidthScale*2);
 			
-			mouth = new Arc(x, y-4, 4, 4, 180, 180);
+			mouth = new Arc(x, y-(h*4) , w*4, h*4, 180, 180);
 			mouth.setType(ArcType.CHORD);
 			mouth.setStroke(Color.BLACK);
-			mouth.setStrokeWidth(2);
+			mouth.setStrokeWidth(strokeWidthScale*2);
 			mouth.setFill(Color.INDIANRED);
 			
-			leftEye = new Line(x-5, y-18, x-5, y-10);
-			rightEye = new Line(x+5, y-18, x+5, y-10);
-			leftEye.setStrokeWidth(1.5);
-			rightEye.setStrokeWidth(1.5);
+			leftEye = new Line(x-(w*5), y-(h*18), x-(w*5), y-(h*10));
+			rightEye = new Line(x+(w*5), y-(h*18), x+(w*5), y-(h*10));
+			leftEye.setStrokeWidth(strokeWidthScale*1.5);
+			rightEye.setStrokeWidth(strokeWidthScale*1.5);
 
 			this.getChildren().addAll(body, arms, legs, face, mouth, leftEye, rightEye);
-			
 		}
+		
+		public Person(int x, int y) {
+			this(x,y, 1, 1);
+		}
+		
+		public Person(int x, int y, double s) {
+			this(x,y, s, s);
+		}
+		
 	}
 	
 	private class Human extends Group{
