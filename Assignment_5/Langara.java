@@ -1,3 +1,5 @@
+import java.util.Random;
+
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -17,6 +19,11 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Langara extends Application {
+	
+	private final int BG_WIDTH = 800;
+	private final int BG_HEIGHT = 500;
+	
+	
 
 	@Override
 	public void start(Stage primaryStage){
@@ -58,7 +65,7 @@ public class Langara extends Application {
 		
 		root.getChildren().addAll(sky, grass, bldg1, bldg2, langara, p1, p2, p3, h1, h2, h3, h0);
 		
-		Scene scene = new Scene(root, 800, 500);
+		Scene scene = new Scene(root, BG_WIDTH, BG_HEIGHT);
 		primaryStage.setTitle("Langara");
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -197,4 +204,53 @@ public class Langara extends Application {
 			this.getChildren().addAll(body,head,leftArm,rightArm,legs);
 		}
 	}
+
+	/**
+	 * Returns a random number
+	 * 
+	 * @return A random real/double number from 0.0d (inclusive) to 1.0...(exclusive)
+	 */
+	private double ranNum() {
+		Random rand = new Random();
+		return (rand.nextDouble());
+	}
+	
+	/*
+	 * TODO:	1) Make array list of foreground items (humans and/or people) as private members of the class
+	 * 			2) Add implementation to set the position of each object for each item. It should be within by the background width and height
+	 */			
+	private void randomEventDecider() {
+		double ranNumPeople, posX, posY;
+		
+		//Sets the number of objects created. Probability of creating n object is half the probability of creating (n-1) objects until 8 people
+		ranNumPeople = ranNum();
+		if((0 <= ranNumPeople) && (ranNumPeople < 0.5)) {
+			//Set 2 people
+		}
+		else if((0.5 <= ranNumPeople) && (ranNumPeople < 0.75)) {
+			//Set 3 people
+		}
+		else if((0.75 <= ranNumPeople) && (ranNumPeople < 0.875)) {
+			//Set 4 People
+		}
+		else if((0.875 <= ranNumPeople) && (ranNumPeople < 0.9375)) {
+			//Set 5 People
+		}
+		if((0.9375 <= ranNumPeople) && (ranNumPeople < 0.96875)) {
+			//Set 6 people
+		}
+		else if((0.96875 <= ranNumPeople) && (ranNumPeople < 0.984375)) {
+			//Set 7 people
+		}
+		else {
+			//Set 8 People
+		}
+		
+		//Sets a random position for each object
+		
+		
+		
+
+	} 
+	
 }
