@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 
 import javafx.application.Application;
@@ -23,8 +24,13 @@ public class Langara extends Application {
 	private final int BG_WIDTH = 800;
 	private final int BG_HEIGHT = 500;
 	
+	//TODO: Using arraylist must be extended for other objects and add support for human.
+	private ArrayList<Person> people;
 	
+	final private double MIN_SIZE = 0.5;
+	final private double MAX_SIZE = 2.0;
 
+	
 	@Override
 	public void start(Stage primaryStage){
 		Text langara = new Text(300, 234, "LANGARA");
@@ -54,16 +60,10 @@ public class Langara extends Application {
 		bldg1.setStrokeWidth(4);
 		bldg2.setStrokeWidth(4);
 		
-		Human h1 = new Human(200, 310, 2, 20);
-		Human h2 = new Human(150, 310, 2, 20);
-		Human h3 = new Human(100, 310, 2, 20);
-		Human h0 = new Human();
-
-		Person p1 = new Person(100, 400, 1);
-		Person p2 = new Person(200, 200, 2);
-		Person p3 = new Person(450, 400, 0.5);
+		randomEventDecider();
 		
-		root.getChildren().addAll(sky, grass, bldg1, bldg2, langara, p1, p2, p3, h1, h2, h3, h0);
+		root.getChildren().addAll(sky, grass, bldg1, bldg2, langara);
+		root.getChildren().addAll(people);
 		
 		Scene scene = new Scene(root, BG_WIDTH, BG_HEIGHT);
 		primaryStage.setTitle("Langara");
@@ -204,53 +204,77 @@ public class Langara extends Application {
 			this.getChildren().addAll(body,head,leftArm,rightArm,legs);
 		}
 	}
-
-	/**
-	 * Returns a random number
-	 * 
-	 * @return A random real/double number from 0.0d (inclusive) to 1.0...(exclusive)
-	 */
-	private double ranNum() {
-		Random rand = new Random();
-		return (rand.nextDouble());
-	}
 	
 	/*
-	 * TODO:	1) Make array list of foreground items (humans and/or people) as private members of the class
-	 * 			2) Add implementation to set the position of each object for each item. It should be within by the background width and height
+	 * Initialize random number of object created, their positions and size.
 	 */			
-	private void randomEventDecider() {
-		double ranNumPeople, posX, posY;
+	public void randomEventDecider() {
+		double ranNumFGObjProb;
+		int numberOfObjects;
+	
+		Random rand = new Random();
+
+		this.people = new ArrayList<Person>();
 		
 		//Sets the number of objects created. Probability of creating n object is half the probability of creating (n-1) objects until 8 people
-		ranNumPeople = ranNum();
-		if((0 <= ranNumPeople) && (ranNumPeople < 0.5)) {
-			//Set 2 people
+		ranNumFGObjProb = rand.nextDouble();
+		if((0.00000000 <= ranNumFGObjProb) && (ranNumFGObjProb < 0.5)) {
+			numberOfObjects = 2;
 		}
-		else if((0.5 <= ranNumPeople) && (ranNumPeople < 0.75)) {
-			//Set 3 people
+		else if((0.5 <= ranNumFGObjProb) && (ranNumFGObjProb < 0.75)) {
+			numberOfObjects = 3;
 		}
-		else if((0.75 <= ranNumPeople) && (ranNumPeople < 0.875)) {
-			//Set 4 People
+		else if((0.75 <= ranNumFGObjProb) && (ranNumFGObjProb < 0.875)) {
+			numberOfObjects = 4;
 		}
-		else if((0.875 <= ranNumPeople) && (ranNumPeople < 0.9375)) {
-			//Set 5 People
+		else if((0.875 <= ranNumFGObjProb) && (ranNumFGObjProb < 0.9375)) {
+			numberOfObjects = 5;
 		}
-		if((0.9375 <= ranNumPeople) && (ranNumPeople < 0.96875)) {
-			//Set 6 people
+		else if((0.9375 <= ranNumFGObjProb) && (ranNumFGObjProb < 0.96875)) {
+			numberOfObjects = 6;
 		}
-		else if((0.96875 <= ranNumPeople) && (ranNumPeople < 0.984375)) {
-			//Set 7 people
+		else if((0.96875 <= ranNumFGObjProb) && (ranNumFGObjProb < 0.984375)) {
+			numberOfObjects = 7;
 		}
-		else {
-			//Set 8 People
+		else{
+			numberOfObjects = 8;
 		}
 		
 		//Sets a random position for each object
+		for(int i = 0; i < numberOfObjects; i++) {
+			people.add(new Person(randomPos(true), randomPos(false), ranSize(MIN_SIZE, MAX_SIZE)));
+		}
 		
-		
-		
-
 	} 
 	
+	
+	/**
+	 * A method to return a random position within background's width and height
+	 * 
+	 * @param isWidth: To know if the Random position is the x or y coordinate
+	 * @return 	For Width, returns int vlues of 0 to BG_WIDTH (Width of background)
+	 * 			For Height, returns int values of 0 to BG_HEIGHT (Height of Background)
+	 */
+	public int randomPos(boolean isWidth) {
+		Random ranPosSeed = new Random();
+
+		if(isWidth) {
+			return ranPosSeed.nextInt(BG_WIDTH);
+		}
+		else {
+			return ranPosSeed.nextInt(BG_HEIGHT);
+		}
+	}
+	
+	/**
+	 * Generates random size from min to max
+	 * 
+	 * @param min: Min size possible for an object
+	 * @param max: Max size possible for an object
+	 * @return Random double size from min to max
+	 */
+	public double ranSize(double min, double max) {
+		Random ranSizeSeed = new Random();
+		return (min + (max*ranSizeSeed.nextDouble()));
+	}
 }
