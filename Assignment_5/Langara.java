@@ -184,6 +184,8 @@ public class Langara extends Application {
 		root.setCenter(picture);
 		root.setBottom(foreGroundOptions);
 		
+		root.setPadding(new Insets(10));
+		
 		//================//
 		
 		Scene scene = new Scene(root);
