@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Random;
-
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -35,23 +34,33 @@ public class Langara extends Application {
 	private final int BG_WIDTH = 800;
 	private final int BG_HEIGHT = 500;
 	
-	//TODO: Using arraylist must be extended for other objects and add support for human.
 	private ArrayList<Person> people;
 	
-	final private double MIN_SIZE = 0.5;
-	final private double MAX_SIZE = 2.0;
+	final private double MIN_SIZE = 0.666;
+	final private double MAX_SIZE = 1.332;
 
-	
+	private CheckBox buildingCB, pathCB, peopleCB;
+	private RadioButton narrowRB, wideRB, shortRB, tallRB;
+	private Building bd;
+	private Path pt;
+	private Button randommize, createNew, clear;
+	private Pane picture;
+		
 	@Override
 	public void start(Stage primaryStage){
 		
 		//=======Top Part========//
 			Text backgroundTxt = new Text("Background");
 					
-					CheckBox buildingCB = new CheckBox("Building");
-					CheckBox pathCB = new CheckBox("Path");
-					CheckBox personCB = new CheckBox("Person");
-				HBox backgroundObjController = new HBox(10, buildingCB, pathCB, personCB);	
+					buildingCB = new CheckBox("Building");
+					pathCB = new CheckBox("Path");
+					peopleCB = new CheckBox("Person");
+					
+					ObjShowListener oSL = new ObjShowListener();
+					buildingCB.setOnAction(oSL);
+					pathCB.setOnAction(oSL);
+
+				HBox backgroundObjController = new HBox(10, buildingCB, pathCB, peopleCB);	
 			backgroundObjController.setAlignment(Pos.CENTER);
 		
 		VBox backgroundController = new VBox(10, backgroundTxt, backgroundObjController);
@@ -59,7 +68,7 @@ public class Langara extends Application {
 		backgroundController.setPadding(new Insets(5));
 		
 		//=======Centre Part========//
-			Pane picture = new Pane();
+			picture = new Pane();
 			picture.setPrefWidth(800);
 			picture.setPrefHeight(500);
 			Rectangle sky = new Rectangle(0, 0, 800, 500);
@@ -67,17 +76,18 @@ public class Langara extends Application {
 			Rectangle grass = new Rectangle(0, 333, 800, 167);
 			grass.setFill(Color.DARKOLIVEGREEN);
 			
-			Building bd = new Building();
-			Path pt = new Path();
-//	
-//		bd.setVisible(false);
-//		pt.setVisible(false);
+			bd = new Building();
+			pt = new Path();
+
+		bd.setVisible(false);
+		pt.setVisible(false);
 		
-		randomEventDecider();
-		
+		people = new ArrayList<Person>();
+				
 		picture.getChildren().addAll(sky, grass, bd, pt);
 		picture.getChildren().addAll(people);
-				
+		
+		
 		Rectangle clip = new Rectangle(0,0,800,500);
 		picture.setClip(clip);
 		
@@ -85,24 +95,40 @@ public class Langara extends Application {
 			Text addPerson = new Text("Add a person");
 			
 					Text widthRBText = new Text("Width");
-					RadioButton narrowRB = new RadioButton("Narrow");
-					RadioButton wideRB = new RadioButton("Wide");
+					narrowRB = new RadioButton("Narrow");
+					wideRB = new RadioButton("Wide");
 					ToggleGroup widthRBGroup = new ToggleGroup();
 					narrowRB.setToggleGroup(widthRBGroup);
 					wideRB.setToggleGroup(widthRBGroup);
 				VBox widthGroup = new VBox(5, widthRBText, narrowRB, wideRB);
 			
 					Text heightRBText = new Text("Height");
-					RadioButton shortRB = new RadioButton("Short");
-					RadioButton tallRB = new RadioButton("Tall");
+					shortRB = new RadioButton("Short");
+					tallRB = new RadioButton("Tall");
 					ToggleGroup heightRBGroup = new ToggleGroup();
 					shortRB.setToggleGroup(heightRBGroup);
 					tallRB.setToggleGroup(heightRBGroup);
 				VBox heightGroup = new VBox(5, heightRBText, shortRB, tallRB);
 			
-					Button randommize = new Button("Randomize");
-					Button createNew = new Button("Create New");
-				VBox buttonGroup = new VBox(5, randommize, createNew);
+					randommize = new Button("Randomize");
+					createNew = new Button("Create New");
+					clear = new Button("Clear");
+
+				VBox buttonGroup = new VBox(5, randommize, createNew, clear);
+				buttonGroup.setPrefWidth(100);
+				randommize.setMinWidth(buttonGroup.getPrefWidth());
+				createNew.setMinWidth(buttonGroup.getPrefWidth());
+				clear.setMinWidth(buttonGroup.getPrefWidth());
+				
+				PersonCreatorListener pCL = new PersonCreatorListener();
+				narrowRB.setOnAction(pCL);
+				wideRB.setOnAction(pCL);
+				shortRB.setOnAction(pCL);
+				tallRB.setOnAction(pCL);
+				randommize.setOnAction(pCL);
+				createNew.setOnAction(pCL);
+				clear.setOnAction(pCL);
+				
 	
 			HBox foreGroundController = new HBox(15, widthGroup, heightGroup, buttonGroup);
 			foreGroundController.setAlignment(Pos.CENTER);
@@ -141,6 +167,10 @@ public class Langara extends Application {
 		private Line leftEye;
 		private Line rightEye;
 		
+		
+		public Person() {
+			this(randomPos(true), randomPos(false), ranSize(MIN_SIZE, MAX_SIZE));
+		}
 		
 		/**
 		 * Defined constructor for person
@@ -264,7 +294,7 @@ public class Langara extends Application {
 	
 	private class Path extends Group {
 		Polyline path;
-		Line divider1, divider2;
+		Line divider1;
 		double[] pathPoints = {0,360, 100,370, 200,390, 300,430, 450,500, 
 							   300,500, 200,460, 100,420, 0,400};		
 		public Path() {
@@ -272,7 +302,6 @@ public class Langara extends Application {
 			path.setStroke(Color.BLACK);
 			path.setStrokeWidth(1.5);
 			path.setFill(Color.rgb(155, 118, 83));
-			
 			
 			divider1 = new Line(35,380, 135,400);
 			divider1.setStroke(Color.ANTIQUEWHITE);
@@ -312,19 +341,94 @@ public class Langara extends Application {
 		}
 	}
 	
-	private class objShowListener implements EventHandler<ActionEvent>{
+	private class ObjShowListener implements EventHandler<ActionEvent>{
 
 		@Override
 		public void handle(ActionEvent e) {
+			if(e.getSource() == buildingCB) {
+				if(buildingCB.isSelected()) {
+					bd.setVisible(true);
+				}
+				else {
+					bd.setVisible(false);
+				}
+			}
+			if (e.getSource() == pathCB) {
+				if(pathCB.isSelected()) {
+					pt.setVisible(true);
+				}
+				else {
+					pt.setVisible(false);
+				}
+			}
+			if(e.getSource() == peopleCB){
+				if(peopleCB.isSelected()) {
+					for(int i = 0; i < people.size(); i++) {
+						people.get(i).setVisible(true);
+					}
+				}
+				else {
+					for(int i = 0; i < people.size(); i++) {
+						people.get(i).setVisible(false);
+					}				
+				}			
+			}
 		}
-		
 	}
 	
+	private class PersonCreatorListener implements EventHandler<ActionEvent>{
+
+		@Override
+		public void handle(ActionEvent e) {
+			double width, height;
+			
+			if(e.getSource() == randommize) {
+				if(people != null && people.size() > 0) {
+					people.clear();
+				}
+				randomObjNumDecider();
+			}
+			else if(e.getSource() == createNew){
+				
+				if(narrowRB.isSelected()) {
+					width = MIN_SIZE;
+				}
+				else if(wideRB.isSelected()) {
+					width = MAX_SIZE;
+				}
+				else {
+					width = 1; //Could happen if no radio button is selected.
+				}
+				
+				if(shortRB.isSelected()) {
+					height = MIN_SIZE;
+				}
+				else if(tallRB.isSelected()) {
+					height = MAX_SIZE;
+				}
+				else {
+					height = 1;
+				}
+				
+				Person p = new Person(randomPos(true), randomPos(false), width, height);
+				p.setVisible(false);
+				picture.getChildren().add(p);
+				people.add(p);
+			}
+			else {
+				if(people != null && people.size() > 0) {
+					picture.getChildren().removeAll(people);
+					people.clear();
+				}			
+			}
+		}
+
+	}
 	
 	/*
 	 * Initialize random number of object created, their positions and size.
 	 */			
-	public void randomEventDecider() {
+	public void randomObjNumDecider() {
 		double ranNumFGObjProb;
 		int numberOfObjects;
 	
@@ -358,7 +462,7 @@ public class Langara extends Application {
 		
 		//Sets a random position for each object
 		for(int i = 0; i < numberOfObjects; i++) {
-			people.add(new Person(randomPos(true), randomPos(false), ranSize(MIN_SIZE, MAX_SIZE)));
+			people.add(new Person());
 		}
 		
 	} 
