@@ -48,9 +48,13 @@ import javafx.stage.Stage;
  * If the user cannot decide how many and what sizes to add, they can add a randomize button that will randomly create between 2-8 persons.
  * The sizes for the random are continuous and range from MIN_SIZE to MAX_SIZE.
  * 
+ * You can create additional persons on top of random, but not in reverse.
+ * This is because on every click of Random, it clears the people, and randomly adds a new set of person.
+ * 
  * The positions for any of the options are random and bounded from the anchor point of the upper most part of the neck. 
  * This is bounded by the background size.
- *
+ * 
+ * If the number of persons are too much, the user can press the clear button to remove all created persons.
  */
 
 public class Langara extends Application {
@@ -216,10 +220,7 @@ public class Langara extends Application {
 		 * @param h: height
 		 */
 		public Person(int x, int y, double w, double h) {
-			
 			double strokeWidthScale = (w+h)/2;
-
-			
 			//Starting line of the body is the anchor point when we scale. 
 			body = new Line(x, y, x, y+(h*50));
 			body.setFill(Color.BLACK);
@@ -254,33 +255,33 @@ public class Langara extends Application {
 
 			this.getChildren().addAll(body, arms, legs, face, mouth, leftEye, rightEye);
 		}
-		
 		public Person(int x, int y) {
 			this(x,y, 1, 1);
 		}
-		
 		public Person(int x, int y, double s) {
 			this(x,y, s, s);
 		}
-		
 	}
 	
 	private class Path extends Group {
-		Polyline path;
-		Line divider1;
-		double[] pathPoints = {0,360, 100,370, 200,390, 300,430, 450,500, 
-							   300,500, 200,460, 100,420, 0,400};		
+		Polyline path1, path2;
+		double[] pathPoints1 = {0,360, 100,370, 180,390, 150,400, 190,460, 160,450, 120,430, 0,400};
+		double[] pathPoints2 = {450,500, 300,430, 200,390, 172,412, 200,460, 240,480, 300,500};
+		
 		public Path() {
-			path  = new Polyline(pathPoints);
-			path.setStroke(Color.BLACK);
-			path.setStrokeWidth(1.5);
-			path.setFill(Color.rgb(155, 118, 83));
+			path1 = new Polyline(pathPoints1);
+			path2 = new Polyline(pathPoints2);
 			
-			divider1 = new Line(35,380, 135,400);
-			divider1.setStroke(Color.ANTIQUEWHITE);
-			path.setStrokeWidth(1.5);
-			this.getChildren().addAll(path, divider1);
-
+			path1.setStroke(Color.BLACK);
+			path1.setStrokeWidth(1.5);
+			path1.setFill(Color.rgb(155, 118, 83));
+			path1.setStrokeWidth(1.5);
+			path2.setStroke(Color.BLACK);
+			path2.setStrokeWidth(1.5);
+			path2.setFill(Color.rgb(155, 118, 83));
+			path2.setStrokeWidth(1.5);
+			
+			this.getChildren().addAll(path1, path2);
 		}
 	}
 	
