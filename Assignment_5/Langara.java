@@ -29,6 +29,30 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * @author 	Zulhelmi (Zoella) Mohamad
+ * @author	Chendong (Oliver) Zhu
+ * 
+ * Program will start with only sky and grass showing.
+ * Users can click on the checkboxes above to show/hide a pathway, the Langara building and people.
+ * 
+ * The sizes are scaled to the original person size.
+ * 
+ * The original number of people will be zero, so users can add people of different dimensions by the controls below the picture.
+ * The controls will let the users change the width and height to be narrow, wide, short or tall and in any other combinations.
+ * The user can only decide from MIN_SIZE, MAX_SIZE or 1 size scaling in width and height dimensions. 
+ * 1 is the default size if no radio buttons are selected.
+ * 
+ * If the people checkbox isn't ticked, there will stil be persons added, however they are hidden.
+ * 
+ * If the user cannot decide how many and what sizes to add, they can add a randomize button that will randomly create between 2-8 persons.
+ * The sizes for the random are continuous and range from MIN_SIZE to MAX_SIZE.
+ * 
+ * The positions for any of the options are random and bounded from the anchor point of the upper most part of the neck. 
+ * This is bounded by the background size.
+ *
+ */
+
 public class Langara extends Application {
 	
 	private final int BG_WIDTH = 800;
@@ -38,6 +62,8 @@ public class Langara extends Application {
 	
 	final private double MIN_SIZE = 0.666;
 	final private double MAX_SIZE = 1.332;
+	
+	private double personWidth, personHeight;
 
 	private CheckBox buildingCB, pathCB, peopleCB;
 	private RadioButton narrowRB, wideRB, shortRB, tallRB;
@@ -45,6 +71,8 @@ public class Langara extends Application {
 	private Path pt;
 	private Button randommize, createNew, clear;
 	private Pane picture;
+	
+	private boolean isPersonVisible = false;
 		
 	@Override
 	public void start(Stage primaryStage){
@@ -59,6 +87,7 @@ public class Langara extends Application {
 					ObjShowListener oSL = new ObjShowListener();
 					buildingCB.setOnAction(oSL);
 					pathCB.setOnAction(oSL);
+					peopleCB.setOnAction(oSL);
 
 				HBox backgroundObjController = new HBox(10, buildingCB, pathCB, peopleCB);	
 			backgroundObjController.setAlignment(Pos.CENTER);
@@ -85,7 +114,6 @@ public class Langara extends Application {
 		people = new ArrayList<Person>();
 				
 		picture.getChildren().addAll(sky, grass, bd, pt);
-		picture.getChildren().addAll(people);
 		
 		
 		Rectangle clip = new Rectangle(0,0,800,500);
@@ -110,27 +138,34 @@ public class Langara extends Application {
 					tallRB.setToggleGroup(heightRBGroup);
 				VBox heightGroup = new VBox(5, heightRBText, shortRB, tallRB);
 			
-					randommize = new Button("Randomize");
 					createNew = new Button("Create New");
 					clear = new Button("Clear");
 
-				VBox buttonGroup = new VBox(5, randommize, createNew, clear);
+				VBox buttonGroup = new VBox(5, createNew, clear);
+				randommize = new Button("Randomize");
 				buttonGroup.setPrefWidth(100);
 				randommize.setMinWidth(buttonGroup.getPrefWidth());
+				randommize.setMinHeight(60);
 				createNew.setMinWidth(buttonGroup.getPrefWidth());
 				clear.setMinWidth(buttonGroup.getPrefWidth());
 				
+				Line divider = new Line(0, 0, 0, 60);
+				divider.setStroke(Color.LIGHTGREY);
+				divider.setStrokeWidth(3);
+				
+				PersonSizeListener pSL = new PersonSizeListener();
+				narrowRB.setOnAction(pSL);
+				wideRB.setOnAction(pSL);
+				shortRB.setOnAction(pSL);
+				tallRB.setOnAction(pSL);
+				
 				PersonCreatorListener pCL = new PersonCreatorListener();
-				narrowRB.setOnAction(pCL);
-				wideRB.setOnAction(pCL);
-				shortRB.setOnAction(pCL);
-				tallRB.setOnAction(pCL);
 				randommize.setOnAction(pCL);
 				createNew.setOnAction(pCL);
 				clear.setOnAction(pCL);
 				
 	
-			HBox foreGroundController = new HBox(15, widthGroup, heightGroup, buttonGroup);
+			HBox foreGroundController = new HBox(15, widthGroup, heightGroup, buttonGroup, divider, randommize);
 			foreGroundController.setAlignment(Pos.CENTER);
 			foreGroundController.setPadding(new Insets(5));
 
@@ -230,68 +265,6 @@ public class Langara extends Application {
 		
 	}
 	
-	private class Human extends Group{
-		private Line body;
-		private Ellipse head;
-		private Line leftArm;
-		private Line rightArm;
-		private Arc legs;
-		
-		// default constructor
-		// student got 0 on the final
-		public Human() {
-			int x = 600;
-			int y = 70;
-			int height = 20;
-			int width = 2;
-			head = new Ellipse(x, y-height/4, height/2, height/4);
-			head.setFill(Color.BLACK);
-			
-			body = new Line(x,y,x,y+height);
-			body.setStroke(Color.BLACK);
-			body.setStrokeWidth(width);
-			
-			leftArm = new Line(x-width/2,y,x-height/2, y+height/2);
-			leftArm.setStroke(Color.BLACK);
-			leftArm.setStrokeWidth(width/2);
-			
-			rightArm = new Line(x+width/2,y,x+height/2, y+height/2);
-			rightArm.setStroke(Color.BLACK);
-			rightArm.setStrokeWidth(width/2);
-			
-			legs = new Arc(x,y+height+height/2,(height+width)/3,height/2,0,180);
-			legs.setType(ArcType.OPEN);
-			legs.setFill(Color.TRANSPARENT);
-			legs.setStroke(Color.BLACK);
-			
-			this.getChildren().addAll(body,head,leftArm,rightArm,legs);
-		}
-		
-		public Human(int x, int y, int width, int height) {
-			head = new Ellipse(x, y-height/4.0, height/2.0, height/4.0);
-			head.setFill(Color.BLACK);
-			
-			body = new Line(x,y,x,y+height);
-			body.setStroke(Color.BLACK);
-			body.setStrokeWidth(width);
-			
-			leftArm = new Line(x-width/2.0,y,x-height/2.0, y+height/2.0);
-			leftArm.setStroke(Color.BLACK);
-			leftArm.setStrokeWidth(width/2);
-			
-			rightArm = new Line(x+width/2.0,y,x+height/2.0, y+height/2.0);
-			rightArm.setStroke(Color.BLACK);
-			rightArm.setStrokeWidth(width/2);
-			
-			legs = new Arc(x,y+height+(height+width)/2.0,(height+width)/3.0,(height+width)/2.0,0,180);
-			legs.setType(ArcType.OPEN);
-			legs.setFill(Color.TRANSPARENT);
-			legs.setStroke(Color.BLACK);
-			
-			this.getChildren().addAll(body,head,leftArm,rightArm,legs);
-		}
-	}
-	
 	private class Path extends Group {
 		Polyline path;
 		Line divider1;
@@ -353,7 +326,7 @@ public class Langara extends Application {
 					bd.setVisible(false);
 				}
 			}
-			if (e.getSource() == pathCB) {
+			else if (e.getSource() == pathCB) {
 				if(pathCB.isSelected()) {
 					pt.setVisible(true);
 				}
@@ -361,13 +334,15 @@ public class Langara extends Application {
 					pt.setVisible(false);
 				}
 			}
-			if(e.getSource() == peopleCB){
+			else if(e.getSource() == peopleCB){
 				if(peopleCB.isSelected()) {
+					isPersonVisible = true;
 					for(int i = 0; i < people.size(); i++) {
 						people.get(i).setVisible(true);
 					}
 				}
 				else {
+					isPersonVisible = false;
 					for(int i = 0; i < people.size(); i++) {
 						people.get(i).setVisible(false);
 					}				
@@ -380,49 +355,67 @@ public class Langara extends Application {
 
 		@Override
 		public void handle(ActionEvent e) {
-			double width, height;
+			double w, h;
 			
-			if(e.getSource() == randommize) {
-				if(people != null && people.size() > 0) {
-					people.clear();
-				}
-				randomObjNumDecider();
-			}
-			else if(e.getSource() == createNew){
-				
-				if(narrowRB.isSelected()) {
-					width = MIN_SIZE;
-				}
-				else if(wideRB.isSelected()) {
-					width = MAX_SIZE;
+			if(e.getSource() == createNew){
+				WidthHeightDecider();
+				Person p = new Person(randomPos(true), randomPos(false), personWidth, personHeight);
+				if(isPersonVisible) {
+					p.setVisible(true);
 				}
 				else {
-					width = 1; //Could happen if no radio button is selected.
+					p.setVisible(false);
 				}
-				
-				if(shortRB.isSelected()) {
-					height = MIN_SIZE;
-				}
-				else if(tallRB.isSelected()) {
-					height = MAX_SIZE;
-				}
-				else {
-					height = 1;
-				}
-				
-				Person p = new Person(randomPos(true), randomPos(false), width, height);
-				p.setVisible(false);
 				picture.getChildren().add(p);
 				people.add(p);
 			}
-			else {
+			else if(e.getSource() == clear) {
 				if(people != null && people.size() > 0) {
 					picture.getChildren().removeAll(people);
 					people.clear();
 				}			
 			}
+			else if(e.getSource() == randommize){
+				if(people != null && people.size() > 0) {
+					picture.getChildren().removeAll(people);
+					people.clear();
+				}
+				randomObjNumDecider();
+				picture.getChildren().addAll(people);
+			}
 		}
 
+	}
+	
+	private class PersonSizeListener implements EventHandler<ActionEvent>{
+
+		@Override
+		public void handle(ActionEvent event) {
+			WidthHeightDecider();	
+		}
+		
+	}
+	
+	private void WidthHeightDecider() {
+		if(narrowRB.isSelected()) {
+			this.personWidth = MIN_SIZE;
+		}
+		else if(wideRB.isSelected()) {
+			this.personWidth = MAX_SIZE;
+		}
+		else {
+			this.personWidth = 1;
+		}
+		
+		if(shortRB.isSelected()) {
+			this.personHeight = MIN_SIZE;
+		}
+		else if(tallRB.isSelected()) {
+			this.personHeight = MAX_SIZE;
+		}
+		else {
+			this.personHeight = 1;
+		}	
 	}
 	
 	/*
@@ -462,7 +455,14 @@ public class Langara extends Application {
 		
 		//Sets a random position for each object
 		for(int i = 0; i < numberOfObjects; i++) {
-			people.add(new Person());
+			Person p = new Person();
+			if(isPersonVisible) {
+				p.setVisible(true);
+			}
+			else {
+				p.setVisible(false);
+			}
+			people.add(p);
 		}
 		
 	} 
@@ -498,4 +498,68 @@ public class Langara extends Application {
 		return (min + (max*ranSizeSeed.nextDouble()));
 	}
 	
+	/**
+	 * Below group not used as I (Zoella) did not create it, and I did not understand it.
+	 */
+	private class Human extends Group{
+		private Line body;
+		private Ellipse head;
+		private Line leftArm;
+		private Line rightArm;
+		private Arc legs;
+		
+		// default constructor
+		// student got 0 on the final
+		public Human() {
+			int x = 600;
+			int y = 70;
+			int height = 20;
+			int width = 2;
+			head = new Ellipse(x, y-height/4, height/2, height/4);
+			head.setFill(Color.BLACK);
+			
+			body = new Line(x,y,x,y+height);
+			body.setStroke(Color.BLACK);
+			body.setStrokeWidth(width);
+			
+			leftArm = new Line(x-width/2,y,x-height/2, y+height/2);
+			leftArm.setStroke(Color.BLACK);
+			leftArm.setStrokeWidth(width/2);
+			
+			rightArm = new Line(x+width/2,y,x+height/2, y+height/2);
+			rightArm.setStroke(Color.BLACK);
+			rightArm.setStrokeWidth(width/2);
+			
+			legs = new Arc(x,y+height+height/2,(height+width)/3,height/2,0,180);
+			legs.setType(ArcType.OPEN);
+			legs.setFill(Color.TRANSPARENT);
+			legs.setStroke(Color.BLACK);
+			
+			this.getChildren().addAll(body,head,leftArm,rightArm,legs);
+		}
+		
+		public Human(int x, int y, int width, int height) {
+			head = new Ellipse(x, y-height/4.0, height/2.0, height/4.0);
+			head.setFill(Color.BLACK);
+			
+			body = new Line(x,y,x,y+height);
+			body.setStroke(Color.BLACK);
+			body.setStrokeWidth(width);
+			
+			leftArm = new Line(x-width/2.0,y,x-height/2.0, y+height/2.0);
+			leftArm.setStroke(Color.BLACK);
+			leftArm.setStrokeWidth(width/2);
+			
+			rightArm = new Line(x+width/2.0,y,x+height/2.0, y+height/2.0);
+			rightArm.setStroke(Color.BLACK);
+			rightArm.setStrokeWidth(width/2);
+			
+			legs = new Arc(x,y+height+(height+width)/2.0,(height+width)/3.0,(height+width)/2.0,0,180);
+			legs.setType(ArcType.OPEN);
+			legs.setFill(Color.TRANSPARENT);
+			legs.setStroke(Color.BLACK);
+			
+			this.getChildren().addAll(body,head,leftArm,rightArm,legs);
+		}
+	}
 }
