@@ -2,9 +2,20 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.ArcType;
@@ -33,42 +44,88 @@ public class Langara extends Application {
 	
 	@Override
 	public void start(Stage primaryStage){
-		Text langara = new Text(300, 234, "LANGARA");
-		langara.setFont(Font.font("The Sans", FontWeight.EXTRA_BOLD, FontPosture.ITALIC, 45));
-		langara.setFill(Color.DARKORANGE);
-		langara.setStroke(Color.BLACK);
-		langara.setStrokeWidth(2);
-		Pane root = new Pane();
 		
-		Rectangle sky = new Rectangle(0, 0, 800, 500);
-		sky.setFill(Color.LIGHTSKYBLUE);
-	
-		Rectangle grass = new Rectangle(0, 333, 800, 167);
-		grass.setFill(Color.DARKOLIVEGREEN);
+		//=======Top Part========//
+			Text backgroundTxt = new Text("Background");
+					
+					CheckBox buildingCB = new CheckBox("Building");
+					CheckBox pathCB = new CheckBox("Path");
+					CheckBox personCB = new CheckBox("Person");
+				HBox backgroundObjController = new HBox(10, buildingCB, pathCB, personCB);	
+			backgroundObjController.setAlignment(Pos.CENTER);
 		
-		double[] bldgPoints1 = {280,167, 280,350, 600,420, 600,100 };
-		double[] bldgPoints2 = {600,420, 600,100, 800,145, 800,400 };
+		VBox backgroundController = new VBox(10, backgroundTxt, backgroundObjController);
+		backgroundController.setAlignment(Pos.CENTER);
+		backgroundController.setPadding(new Insets(5));
 		
-		Polygon bldg1 = new Polygon(bldgPoints1);
-		Polygon bldg2 = new Polygon(bldgPoints2);
-
-		bldg1.setFill(Color.DIMGREY);
-		bldg2.setFill(Color.DIMGREY);
-		
-		bldg1.setStroke(Color.BLACK);
-		bldg2.setStroke(Color.BLACK);
-		bldg1.setStrokeWidth(4);
-		bldg2.setStrokeWidth(4);
+		//=======Centre Part========//
+			Pane picture = new Pane();
+			picture.setPrefWidth(800);
+			picture.setPrefHeight(500);
+			Rectangle sky = new Rectangle(0, 0, 800, 500);
+			sky.setFill(Color.LIGHTSKYBLUE);
+			Rectangle grass = new Rectangle(0, 333, 800, 167);
+			grass.setFill(Color.DARKOLIVEGREEN);
+			
+			Building bd = new Building();
+			Path pt = new Path();
+//	
+//		bd.setVisible(false);
+//		pt.setVisible(false);
 		
 		randomEventDecider();
 		
-		root.getChildren().addAll(sky, grass, bldg1, bldg2, langara);
-		root.getChildren().addAll(people);
+		picture.getChildren().addAll(sky, grass, bd, pt);
+		picture.getChildren().addAll(people);
+				
+		Rectangle clip = new Rectangle(0,0,800,500);
+		picture.setClip(clip);
 		
-		Scene scene = new Scene(root, BG_WIDTH, BG_HEIGHT);
+		//=======Bottom Part========//
+			Text addPerson = new Text("Add a person");
+			
+					Text widthRBText = new Text("Width");
+					RadioButton narrowRB = new RadioButton("Narrow");
+					RadioButton wideRB = new RadioButton("Wide");
+					ToggleGroup widthRBGroup = new ToggleGroup();
+					narrowRB.setToggleGroup(widthRBGroup);
+					wideRB.setToggleGroup(widthRBGroup);
+				VBox widthGroup = new VBox(5, widthRBText, narrowRB, wideRB);
+			
+					Text heightRBText = new Text("Height");
+					RadioButton shortRB = new RadioButton("Short");
+					RadioButton tallRB = new RadioButton("Tall");
+					ToggleGroup heightRBGroup = new ToggleGroup();
+					shortRB.setToggleGroup(heightRBGroup);
+					tallRB.setToggleGroup(heightRBGroup);
+				VBox heightGroup = new VBox(5, heightRBText, shortRB, tallRB);
+			
+					Button randommize = new Button("Randomize");
+					Button createNew = new Button("Create New");
+				VBox buttonGroup = new VBox(5, randommize, createNew);
+	
+			HBox foreGroundController = new HBox(15, widthGroup, heightGroup, buttonGroup);
+			foreGroundController.setAlignment(Pos.CENTER);
+			foreGroundController.setPadding(new Insets(5));
+
+		VBox foreGroundOptions = new VBox(10, addPerson, foreGroundController);
+		foreGroundOptions.setAlignment(Pos.CENTER);
+		foreGroundOptions.setPadding(new Insets(5));
+				
+		//=======Border Pane========//
+		
+		BorderPane root = new BorderPane();
+		root.setTop(backgroundController);
+		root.setCenter(picture);
+		root.setBottom(foreGroundOptions);
+		
+		//================//
+		
+		Scene scene = new Scene(root);
 		primaryStage.setTitle("Langara");
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		primaryStage.setResizable(false);
 	}
 	
 	public static void main(String[] args) {
@@ -205,6 +262,65 @@ public class Langara extends Application {
 		}
 	}
 	
+	private class Path extends Group {
+		Polyline path;
+		Line divider1, divider2;
+		double[] pathPoints = {0,360, 100,370, 200,390, 300,430, 450,500, 
+							   300,500, 200,460, 100,420, 0,400};		
+		public Path() {
+			path  = new Polyline(pathPoints);
+			path.setStroke(Color.BLACK);
+			path.setStrokeWidth(1.5);
+			path.setFill(Color.rgb(155, 118, 83));
+			
+			
+			divider1 = new Line(35,380, 135,400);
+			divider1.setStroke(Color.ANTIQUEWHITE);
+			path.setStrokeWidth(1.5);
+			this.getChildren().addAll(path, divider1);
+
+		}
+	}
+	
+	private class Building extends Group {
+		Polygon bldgLeft, bldgRight;
+		Text langaraLogo;
+		
+		double[] bldgLeftPoints = {280,167, 280,350, 600,420, 600,100 };
+		double[] bldgRightPoints = {600,420, 600,100, 800,145, 800,400 };
+		
+		public Building() {
+			bldgLeft = new Polygon(bldgLeftPoints);
+			bldgRight = new Polygon(bldgRightPoints);
+
+			bldgLeft.setFill(Color.DIMGREY);
+			bldgRight.setFill(Color.DIMGREY);
+			
+			bldgLeft.setStroke(Color.BLACK);
+			bldgRight.setStroke(Color.BLACK);
+			
+			bldgLeft.setStrokeWidth(3);
+			bldgRight.setStrokeWidth(3);
+			
+			langaraLogo = new Text(300, 234, "LANGARA");
+			langaraLogo.setFont(Font.font("The Sans", FontWeight.EXTRA_BOLD, FontPosture.ITALIC, 45));
+			langaraLogo.setFill(Color.DARKORANGE);
+			langaraLogo.setStroke(Color.BLACK);
+			langaraLogo.setStrokeWidth(2);
+			
+			this.getChildren().addAll(bldgLeft, bldgRight, langaraLogo);
+		}
+	}
+	
+	private class objShowListener implements EventHandler<ActionEvent>{
+
+		@Override
+		public void handle(ActionEvent e) {
+		}
+		
+	}
+	
+	
 	/*
 	 * Initialize random number of object created, their positions and size.
 	 */			
@@ -277,4 +393,5 @@ public class Langara extends Application {
 		Random ranSizeSeed = new Random();
 		return (min + (max*ranSizeSeed.nextDouble()));
 	}
+	
 }
