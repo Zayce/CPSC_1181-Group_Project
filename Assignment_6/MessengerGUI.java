@@ -170,6 +170,7 @@ public class MessengerGUI extends Application {
 				if (x.equals(input)) {
 					displayText.setText("Current user: " + input);
 					//System.out.println("Name changed");
+					isUserSelected = true;
 					break;
 				}
 			}
