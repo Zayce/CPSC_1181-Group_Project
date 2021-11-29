@@ -165,12 +165,11 @@ public class MessengerGUI extends Application {
 			displayText.setText("Incorrect Username");
 			String input = chooseUserField.getText();
 			for (String x: messenger.getUserList()){
-				System.out.println(x);
-				System.out.println(input);
-				System.out.println(input == x);
-				if (x == input) {
+//				System.out.println(x);
+//				System.out.println(input);
+				if (x.equals(input)) {
 					displayText.setText("Current user: " + input);
-					System.out.println("Name changed");
+					//System.out.println("Name changed");
 					break;
 				}
 			}
