@@ -1,8 +1,6 @@
 import java.util.ArrayList;
 import java.util.Random;
-
 import javax.swing.RootPaneContainer;
-
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -47,6 +45,9 @@ import javafx.stage.Stage;
 public class MessengerGUI extends Application {
 	private boolean isUserSelected = false;
 	private ArrayList<String> userNames;
+	private Text displayText = new Text("Select A User");
+	private TextField chooseUserField;
+	private Messenger messenger;
 //	final private Font TEXT_AREA_FONT = Font.font(MONOSPACE); //TODO: FIX THIS
 	
 	@Override
@@ -55,62 +56,42 @@ public class MessengerGUI extends Application {
 //		TEXT_AREA_FONT = 
 
 
-		
+		messenger = new Messenger();
 		Text enterUser = new Text("Enter Username");
-		TextField chooseUserField = new TextField();
+		chooseUserField = new TextField();
 		Button selectUserButton = new Button("Select");
-		HBox chooseUserBox = new HBox(5, enterUser, chooseUserField, selectUserButton);
-		chooseUserBox.setPadding(new Insets(5));
-		chooseUserBox.setAlignment(Pos.CENTER);
+		
+		selectUserButton.setOnAction(new UsernameEventHandler());
+		
+		HBox chooseUser = new HBox(5, enterUser, chooseUserField, selectUserButton);
+		chooseUser.setPadding(new Insets(5));
+		chooseUser.setAlignment(Pos.CENTER);
 		
 		TextArea readMsgArea = new TextArea("No Message Displayed");
-		readMsgArea.setEditable(false);
 		
 		Button loadAllMsg = new Button("Load All Messages");
 		Button loadUnreadMsg = new Button("Load Unread Messages");
 		HBox loadMsgBox = new HBox(loadAllMsg, loadUnreadMsg);
 		VBox loadDispBox = new VBox(readMsgArea, loadMsgBox);
 		loadMsgBox.setAlignment(Pos.CENTER);
-		
 
 		
 		Button nextMsg = new Button("Next");
 		nextMsg.setDisable(true);
 		 
-		HBox readMsgBox = new HBox(5, loadDispBox, nextMsg);
-		readMsgBox.setAlignment(Pos.CENTER);
-		readMsgBox.setPadding(new Insets(5));
+		HBox readMsg = new HBox(5, loadDispBox, nextMsg);
+		readMsg.setAlignment(Pos.CENTER);
+		readMsg.setPadding(new Insets(5));
 		
-		
-		TextField toUserField = new TextField();
-		HBox sendToBox = new HBox(2, new Text("To"), toUserField);
-		TextArea sendMsgArea = new TextArea();
-		
-		ToggleGroup msgStyleGroup = new ToggleGroup();
-		RadioButton smile = new RadioButton("Smile");
-		RadioButton written = new RadioButton("Written");
-		smile.setToggleGroup(msgStyleGroup);
-		written.setToggleGroup(msgStyleGroup);
-		written.setSelected(true);
-		
-		Button sendMsg = new Button("Send");
+		VBox sendMsg = new VBox();
 
 		
-		HBox msgOptionBox = new HBox(2, new Text("Message Type"), smile, written, sendMsg);
-		msgOptionBox.setMargin(sendMsg, new Insets(0,0, 0, 60));
-		msgOptionBox.setAlignment(Pos.CENTER);
-
-		VBox sendMsgBox = new VBox(2, sendToBox, sendMsgArea, msgOptionBox);
-		sendMsgBox.setPadding(new Insets(5));
 		
-		
-		
-		Text displayText = new Text("Select A User");
 		
 		Tab chooseUserTab, readMsgTab, sendMsgTab;
-		chooseUserTab = new Tab("Choose User", chooseUserBox);
-		readMsgTab = new Tab("Read Message", readMsgBox);
-		sendMsgTab = new Tab("Send Message", sendMsgBox);
+		chooseUserTab = new Tab("Choose User", chooseUser);
+		readMsgTab = new Tab("Read Message", readMsg);
+		sendMsgTab = new Tab("Send Message", sendMsg);
 		
 		TabPane optionTabs = new TabPane(chooseUserTab, readMsgTab, sendMsgTab);
 		optionTabs.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
@@ -132,6 +113,19 @@ public class MessengerGUI extends Application {
 	
 	public static void main(String[] args) {
 		Application.launch(args);
+	}
+	
+	public class UsernameEventHandler implements EventHandler<ActionEvent>{
+		@Override
+		public void handle(ActionEvent e) {
+			for (String x: messenger.getUserList()){
+				if (x == chooseUserField.getText()) {
+					displayText.setText("Current user: " + x);
+				}
+			}
+			displayText.setText("Incorrect Username");
+			
+		}
 	}
 	
 	
