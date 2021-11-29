@@ -44,7 +44,6 @@ public class MessengerGUI extends Application {
 	private ArrayList<String> userNames;
 	private Text displayText = new Text("Select A User");
 	private TextField chooseUserField;
-	private Messenger messenger;
 //	final private Font TEXT_AREA_FONT = Font.font(MONOSPACE); //TODO: FIX THIS
 	
 	private Button selectUserButton, nextMsg, loadAllMsg, loadUnreadMsg, sendMsg;
@@ -52,16 +51,14 @@ public class MessengerGUI extends Application {
 	
 	@Override
 	public void start(Stage primaryStage){
-//		Font.getFamilies(); TODO: IDK WHY FONT DONT WORK
-//		TEXT_AREA_FONT = 
-/
+
 		
-		messenger = new Messenger();
+		msngr = new Messenger();
 		Text enterUser = new Text("Enter Username");
 		chooseUserField = new TextField();
 		Button selectUserButton = new Button("Select");
 		
-		selectUserButton.setOnAction(new UsernameEventHandler());
+		selectUserButton.setOnAction(new UsernameSelectorListener());
 		
 		HBox chooseUser = new HBox(5, enterUser, chooseUserField, selectUserButton);
 		chooseUser.setPadding(new Insets(5));
@@ -141,6 +138,26 @@ public class MessengerGUI extends Application {
 		Application.launch(args);
 	}
 	
+	private class UsernameSelectorListener implements EventHandler<ActionEvent>{
+		@Override
+		public void handle(ActionEvent e) {
+			if (currentUser == null || currentUser.equals("")) {
+				throw new IllegalArgumentException("Empty or null username");
+			}
+			else {
+				currentUser = chooseUserField.getText();
+			}
+			
+			if(msngr.getUserList().contains(currentUser)){
+				displayText.setText(currentUser + " selected.");
+				isUserSelected = true;
+			}
+			else {
+				displayText.setText("Incorrect Username");
+			}
+		}
+	}
+	
 	private class ReadMsgButtonListener implements EventHandler<ActionEvent>{
 
 		@Override
@@ -148,33 +165,25 @@ public class MessengerGUI extends Application {
 			if(!isUserSelected) {
 				return;
 			}
-			else if(e.getSource() == loadAllMsg) {
-				msngr.getReceivedMessages(currentUser);
-			}
 			else {
-				msngr.getReceivedMessages(currentUser, Message.Status.unread);
+				nextMsg.setDisable(false);
+				if(e.getSource() == loadAllMsg) {
+					msngr.getReceivedMessages(currentUser);
+				}
+				else {
+					msngr.getReceivedMessages(currentUser, Message.Status.unread);
+				}
 			}
+		}	
+	}
+
+	private class SendMsgListener implements EventHandler<ActionEvent>{
+
+		@Override
+		public void handle(ActionEvent e) {
 			
 		}
 		
-	}
-
-	public class UsernameEventHandler implements EventHandler<ActionEvent>{
-		@Override
-		public void handle(ActionEvent e) {
-			displayText.setText("Incorrect Username");
-			String input = chooseUserField.getText();
-			for (String x: messenger.getUserList()){
-//				System.out.println(x);
-//				System.out.println(input);
-				if (x.equals(input)) {
-					displayText.setText("Current user: " + input);
-					//System.out.println("Name changed");
-					isUserSelected = true;
-					break;
-				}
-			}
-		}
 	}
 	
 	
