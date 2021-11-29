@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Random;
+
 import javax.swing.RootPaneContainer;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -57,37 +59,58 @@ public class MessengerGUI extends Application {
 		Text enterUser = new Text("Enter Username");
 		TextField chooseUserField = new TextField();
 		Button selectUserButton = new Button("Select");
-		HBox chooseUser = new HBox(5, enterUser, chooseUserField, selectUserButton);
-		chooseUser.setPadding(new Insets(5));
-		chooseUser.setAlignment(Pos.CENTER);
+		HBox chooseUserBox = new HBox(5, enterUser, chooseUserField, selectUserButton);
+		chooseUserBox.setPadding(new Insets(5));
+		chooseUserBox.setAlignment(Pos.CENTER);
 		
 		TextArea readMsgArea = new TextArea("No Message Displayed");
+		readMsgArea.setEditable(false);
 		
 		Button loadAllMsg = new Button("Load All Messages");
 		Button loadUnreadMsg = new Button("Load Unread Messages");
 		HBox loadMsgBox = new HBox(loadAllMsg, loadUnreadMsg);
 		VBox loadDispBox = new VBox(readMsgArea, loadMsgBox);
 		loadMsgBox.setAlignment(Pos.CENTER);
+		
 
 		
 		Button nextMsg = new Button("Next");
 		nextMsg.setDisable(true);
 		 
-		HBox readMsg = new HBox(5, loadDispBox, nextMsg);
-		readMsg.setAlignment(Pos.CENTER);
-		readMsg.setPadding(new Insets(5));
+		HBox readMsgBox = new HBox(5, loadDispBox, nextMsg);
+		readMsgBox.setAlignment(Pos.CENTER);
+		readMsgBox.setPadding(new Insets(5));
 		
-		VBox sendMsg = new VBox();
+		
+		TextField toUserField = new TextField();
+		HBox sendToBox = new HBox(2, new Text("To"), toUserField);
+		TextArea sendMsgArea = new TextArea();
+		
+		ToggleGroup msgStyleGroup = new ToggleGroup();
+		RadioButton smile = new RadioButton("Smile");
+		RadioButton written = new RadioButton("Written");
+		smile.setToggleGroup(msgStyleGroup);
+		written.setToggleGroup(msgStyleGroup);
+		written.setSelected(true);
+		
+		Button sendMsg = new Button("Send");
 
 		
+		HBox msgOptionBox = new HBox(2, new Text("Message Type"), smile, written, sendMsg);
+		msgOptionBox.setMargin(sendMsg, new Insets(0,0, 0, 60));
+		msgOptionBox.setAlignment(Pos.CENTER);
+
+		VBox sendMsgBox = new VBox(2, sendToBox, sendMsgArea, msgOptionBox);
+		sendMsgBox.setPadding(new Insets(5));
 		
 		
-		Text displayText = new Text("TEST");
+		
+		Text displayText = new Text("Select A User");
 		
 		Tab chooseUserTab, readMsgTab, sendMsgTab;
-		chooseUserTab = new Tab("Choose User", chooseUser);
-		readMsgTab = new Tab("Read Message", readMsg);
-		sendMsgTab = new Tab("Send Message", sendMsg);
+		chooseUserTab = new Tab("Choose User", chooseUserBox);
+		readMsgTab = new Tab("Read Message", readMsgBox);
+		sendMsgTab = new Tab("Send Message", sendMsgBox);
 		
 		TabPane optionTabs = new TabPane(chooseUserTab, readMsgTab, sendMsgTab);
 		optionTabs.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
