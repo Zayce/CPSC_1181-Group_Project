@@ -1,8 +1,6 @@
 import java.util.ArrayList;
 import java.util.Random;
-
 import javax.swing.RootPaneContainer;
-
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -44,6 +42,9 @@ public class MessengerGUI extends Application {
 	private String currentUser;
 
 	private ArrayList<String> userNames;
+	private Text displayText = new Text("Select A User");
+	private TextField chooseUserField;
+	private Messenger messenger;
 //	final private Font TEXT_AREA_FONT = Font.font(MONOSPACE); //TODO: FIX THIS
 	
 	private Button selectUserButton, nextMsg, loadAllMsg, loadUnreadMsg, sendMsg;
@@ -53,23 +54,26 @@ public class MessengerGUI extends Application {
 	public void start(Stage primaryStage){
 //		Font.getFamilies(); TODO: IDK WHY FONT DONT WORK
 //		TEXT_AREA_FONT = 
-
+/
 		
+		messenger = new Messenger();
 		Text enterUser = new Text("Enter Username");
-		TextField chooseUserField = new TextField();
-		selectUserButton = new Button("Select");
-		HBox chooseUserBox = new HBox(5, enterUser, chooseUserField, selectUserButton);
-		chooseUserBox.setPadding(new Insets(5));
-		chooseUserBox.setAlignment(Pos.CENTER);
+		chooseUserField = new TextField();
+		Button selectUserButton = new Button("Select");
+		
+		selectUserButton.setOnAction(new UsernameEventHandler());
+		
+		HBox chooseUser = new HBox(5, enterUser, chooseUserField, selectUserButton);
+		chooseUser.setPadding(new Insets(5));
+		chooseUser.setAlignment(Pos.CENTER);
 		
 		TextArea readMsgArea = new TextArea("No Message Displayed");
-		readMsgArea.setEditable(false);
+        readMsgArea.setEditable(false);
 		nextMsg = new Button("Next");
 		nextMsg.setDisable(true);
 		HBox loadDispBox = new HBox(5, readMsgArea, nextMsg);
 		loadDispBox.setAlignment(Pos.CENTER);
 
-		
 		loadAllMsg = new Button("Load All Messages");
 		loadUnreadMsg = new Button("Load Unread Messages");
 		ReadMsgButtonListener rmbl = new ReadMsgButtonListener();
@@ -107,17 +111,13 @@ public class MessengerGUI extends Application {
 		HBox.setMargin(sendMsg, new Insets(0,0, 0,60));
 		msgOptionBox.setAlignment(Pos.CENTER);
 
-		VBox sendMsgBox = new VBox(2, sendToBox, sendMsgArea, msgOptionBox);
-		sendMsgBox.setPadding(new Insets(5));
 		
 		
-		
-		Text displayText = new Text("Select A User");
 		
 		Tab chooseUserTab, readMsgTab, sendMsgTab;
-		chooseUserTab = new Tab("Choose User", chooseUserBox);
-		readMsgTab = new Tab("Read Message", readMsgBox);
-		sendMsgTab = new Tab("Send Message", sendMsgBox);
+		chooseUserTab = new Tab("Choose User", chooseUser);
+		readMsgTab = new Tab("Read Message", readMsg);
+		sendMsgTab = new Tab("Send Message", sendMsg);
 		
 		TabPane optionTabs = new TabPane(chooseUserTab, readMsgTab, sendMsgTab);
 		optionTabs.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
@@ -159,5 +159,18 @@ public class MessengerGUI extends Application {
 		
 	}
 
+	public class UsernameEventHandler implements EventHandler<ActionEvent>{
+		@Override
+		public void handle(ActionEvent e) {
+			for (String x: messenger.getUserList()){
+				if (x == chooseUserField.getText()) {
+					displayText.setText("Current user: " + x);
+				}
+			}
+			displayText.setText("Incorrect Username");
+			
+		}
+	}
+	
 	
 }
