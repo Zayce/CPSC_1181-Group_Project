@@ -162,13 +162,18 @@ public class MessengerGUI extends Application {
 	public class UsernameEventHandler implements EventHandler<ActionEvent>{
 		@Override
 		public void handle(ActionEvent e) {
+			displayText.setText("Incorrect Username");
+			String input = chooseUserField.getText();
 			for (String x: messenger.getUserList()){
-				if (x == chooseUserField.getText()) {
-					displayText.setText("Current user: " + x);
+				System.out.println(x);
+				System.out.println(input);
+				System.out.println(input == x);
+				if (x == input) {
+					displayText.setText("Current user: " + input);
+					System.out.println("Name changed");
+					break;
 				}
 			}
-			displayText.setText("Incorrect Username");
-			
 		}
 	}
 	
