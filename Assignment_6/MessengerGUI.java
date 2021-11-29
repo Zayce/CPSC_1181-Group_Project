@@ -21,22 +21,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Arc;
-import javafx.scene.shape.ArcType;
-import javafx.scene.shape.Ellipse;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Polyline;
-import javafx.scene.shape.Rectangle;
+
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+
+import Messenger;
 
 /**
  * @author 	Zulhelmi (Zoella) Mohamad
@@ -46,45 +41,57 @@ import javafx.stage.Stage;
 
 public class MessengerGUI extends Application {
 	private boolean isUserSelected = false;
+	private String currentUser;
+
 	private ArrayList<String> userNames;
 //	final private Font TEXT_AREA_FONT = Font.font(MONOSPACE); //TODO: FIX THIS
+	
+	private Button selectUserButton, nextMsg, loadAllMsg, loadUnreadMsg, sendMsg;
+	private Messenger msngr;
 	
 	@Override
 	public void start(Stage primaryStage){
 //		Font.getFamilies(); TODO: IDK WHY FONT DONT WORK
 //		TEXT_AREA_FONT = 
 
-
 		
 		Text enterUser = new Text("Enter Username");
 		TextField chooseUserField = new TextField();
-		Button selectUserButton = new Button("Select");
+		selectUserButton = new Button("Select");
 		HBox chooseUserBox = new HBox(5, enterUser, chooseUserField, selectUserButton);
 		chooseUserBox.setPadding(new Insets(5));
 		chooseUserBox.setAlignment(Pos.CENTER);
 		
 		TextArea readMsgArea = new TextArea("No Message Displayed");
 		readMsgArea.setEditable(false);
-		
-		Button loadAllMsg = new Button("Load All Messages");
-		Button loadUnreadMsg = new Button("Load Unread Messages");
-		HBox loadMsgBox = new HBox(loadAllMsg, loadUnreadMsg);
-		VBox loadDispBox = new VBox(readMsgArea, loadMsgBox);
-		loadMsgBox.setAlignment(Pos.CENTER);
-		
+		nextMsg = new Button("Next");
+		nextMsg.setDisable(true);
+		HBox loadDispBox = new HBox(5, readMsgArea, nextMsg);
+		loadDispBox.setAlignment(Pos.CENTER);
 
 		
-		Button nextMsg = new Button("Next");
-		nextMsg.setDisable(true);
-		 
-		HBox readMsgBox = new HBox(5, loadDispBox, nextMsg);
+		loadAllMsg = new Button("Load All Messages");
+		loadUnreadMsg = new Button("Load Unread Messages");
+		ReadMsgButtonListener rmbl = new ReadMsgButtonListener();
+		loadAllMsg.setOnAction(rmbl);
+		loadUnreadMsg.setOnAction(rmbl);
+
+		HBox loadMsgBox = new HBox(5 ,loadAllMsg, loadUnreadMsg);
+		loadMsgBox.setAlignment(Pos.CENTER);
+		loadMsgBox.setPadding(new Insets(10, 0, 0, 0));
+
+		VBox readMsgBox = new VBox(5, loadDispBox, loadMsgBox);
 		readMsgBox.setAlignment(Pos.CENTER);
 		readMsgBox.setPadding(new Insets(5));
+		
+		
+		
 		
 		
 		TextField toUserField = new TextField();
 		HBox sendToBox = new HBox(2, new Text("To"), toUserField);
 		TextArea sendMsgArea = new TextArea();
+		sendMsgArea.setDisable(true);
 		
 		ToggleGroup msgStyleGroup = new ToggleGroup();
 		RadioButton smile = new RadioButton("Smile");
@@ -93,11 +100,11 @@ public class MessengerGUI extends Application {
 		written.setToggleGroup(msgStyleGroup);
 		written.setSelected(true);
 		
-		Button sendMsg = new Button("Send");
+		sendMsg = new Button("Send");
 
 		
 		HBox msgOptionBox = new HBox(2, new Text("Message Type"), smile, written, sendMsg);
-		msgOptionBox.setMargin(sendMsg, new Insets(0,0, 0, 60));
+		HBox.setMargin(sendMsg, new Insets(0,0, 0,60));
 		msgOptionBox.setAlignment(Pos.CENTER);
 
 		VBox sendMsgBox = new VBox(2, sendToBox, sendMsgArea, msgOptionBox);
@@ -134,5 +141,23 @@ public class MessengerGUI extends Application {
 		Application.launch(args);
 	}
 	
+	private class ReadMsgButtonListener implements EventHandler<ActionEvent>{
+
+		@Override
+		public void handle(ActionEvent e) {
+			if(!isUserSelected) {
+				return;
+			}
+			else if(e.getSource() == loadAllMsg) {
+				msngr.getReceivedMessages(currentUser);
+			}
+			else {
+				msngr.getReceivedMessages(currentUser, Message.Status.unread);
+			}
+			
+		}
+		
+	}
+
 	
 }
