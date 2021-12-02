@@ -64,6 +64,5 @@ public class Warehouse{
 		return "Name: " + this.name + 
 				" | No. of Stored Crates: " + this.getCrateCount() + 
 				" | No. of Errors: " + this.errorCnt;
-				
 	}
 }
