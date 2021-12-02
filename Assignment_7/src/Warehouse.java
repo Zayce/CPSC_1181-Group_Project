@@ -29,8 +29,11 @@ public class Warehouse{
 		ArrayList<String> pickedUpCrates = new ArrayList<String>();
 		
 		while(!this.curntStoredCrates.contains(destination)) {
-			//sleep for 0.5s or 500ms
-			//thread.sleep(500);
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		while(pickedUpCrates.size() <= max) {
