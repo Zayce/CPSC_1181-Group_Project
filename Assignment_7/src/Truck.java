@@ -31,6 +31,8 @@ public class Truck implements Runnable {
 
 	@Override
 	public void run() {
+		String threadName = Thread.currentThread().getName();
+
 		while(!Thread.interrupted()) {
 			while(this.crtsOnTrucks.size() <= this.maxNumCrts) {
 				src.pickUp(dstn.getName(), maxNumCrts);
@@ -40,10 +42,10 @@ public class Truck implements Runnable {
 				dstn.deliver(crtsOnTrucks);
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
-				System.out.println("Thread is interrupted.");
+				System.out.println(threadName + " thread is interrupted.");
 				e.printStackTrace();
 			} finally {
-				System.out.println("Thread is shutting down immediately.");
+				System.out.println(threadName + " thread is shutting down immediately.");
 			}
 		}
 	}

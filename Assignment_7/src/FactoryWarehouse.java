@@ -48,6 +48,8 @@ public class FactoryWarehouse extends Warehouse implements Runnable {
 
 	@Override
 	public void run() {
+		String threadName = Thread.currentThread().getName();
+
 		int numCrtsNeedToBePrdcd = this.numCrtsNeedSent - this.numCrtsProduced;
 		for(Warehouse dstn: dstntnWrhs) {
 			if(numCrtsNeedToBePrdcd >= 3) {
@@ -60,11 +62,11 @@ public class FactoryWarehouse extends Warehouse implements Runnable {
 			try {
 				Thread.sleep(5000);
 			} catch (InterruptedException e) {
-				System.out.println("Thread is interrupted");
+				System.out.println(threadName + " thread is interrupted.");
 				e.printStackTrace();
 			}
 			finally {
-				System.out.println("Thread is shutting down immediately");
+				System.out.println(threadName + " thread is shutting down immediately.");
 			}
 		
 		}
