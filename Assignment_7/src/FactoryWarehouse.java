@@ -48,27 +48,25 @@ public class FactoryWarehouse extends Warehouse implements Runnable {
 
 	@Override
 	public void run() {
-		String threadName = Thread.currentThread().getName();
-
-		int numCrtsNeedToBePrdcd = this.numCrtsNeedSent - this.numCrtsProduced;
-		for(Warehouse dstn: dstntnWrhs) {
-			if(numCrtsNeedToBePrdcd >= 3) {
-				super.deliver(dstn.pickUp(dstn.getName(), 3));
-			}
-			else {
-				super.deliver(dstn.pickUp(dstn.getName(), numCrtsNeedToBePrdcd));
-			}
-			numCrtsProduced++;
-			try {
+		String threadName = Thread.currentThread().getName();	
+		try {
+			int numCrtsNeedToBePrdcd = this.numCrtsNeedSent - this.numCrtsProduced;
+			for(Warehouse dstn: dstntnWrhs) {
+				if(numCrtsNeedToBePrdcd >= 3) {
+					super.deliver(dstn.pickUp(dstn.getName(), 3));
+				}
+				else {
+					super.deliver(dstn.pickUp(dstn.getName(), numCrtsNeedToBePrdcd));
+				}
+				numCrtsProduced++;
 				Thread.sleep(5000);
-			} catch (InterruptedException e) {
-				System.out.println(threadName + " thread is interrupted.");
-				e.printStackTrace();
 			}
-			finally {
-				System.out.println(threadName + " thread is shutting down immediately.");
-			}
-		
+		} catch (InterruptedException e) {
+		System.out.println(threadName + " thread is interrupted.");
+		e.printStackTrace();
+		}
+		finally {
+			System.out.println(threadName + " thread is shutting down immediately.");
 		}
 	}
 	

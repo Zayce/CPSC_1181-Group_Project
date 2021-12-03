@@ -4,14 +4,18 @@ import java.util.ArrayList;
  * @author Zulhelmi (Zoella) Mohamad
  *
  */
-public class LogisticsTester {;
-	private Warehouse a, b, c;
-	private FactoryWarehouse factory;
-	private ArrayList<Warehouse> dstnWarehouses;
-	private Truck truckA, truckB, truckC;
-	private Thread threadTruckA, threadTruckB, threadTruckC, threadFactory;
+public class LogisticsTester {
+	Warehouse a, b, c;
+	FactoryWarehouse factory;
+	Truck truckA, truckB, truckC;
 
-	public static void main(String[] args) {
+
+	public void main(String[] args) {
+
+		ArrayList<Warehouse> dstnWarehouses;
+		Thread threadTruckA, threadTruckB, threadTruckC, threadFactory;
+		boolean isDebugModeOn = true;
+		
 		a = new Warehouse("A", false);
 		b = new Warehouse("B", false);
 		c = new Warehouse("C", false);
@@ -33,23 +37,61 @@ public class LogisticsTester {;
 		threadTruckB = new Thread(truckB);
 		threadTruckC = new Thread(truckC);
 
-		
 		threadFactory.start();
 		threadTruckA.start();
 		threadTruckB.start();
 		threadTruckC.start();
+
+		try {
+			threadFactory.join();
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		} finally {
+			System.out.println("Thread is shutting down");
+		}
 		
-//		while(!Thread.interrupted()) {
-//			
-//			Thread.sleep(1000);
-//		}
+		while(a.getCrateCount() < 10 && b.getCrateCount() < 10 && c.getCrateCount() < 10) {
+			try {
+				printAllToString(isDebugModeOn);
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} finally {
+				System.out.println("Thread is shutting down immediately.");
+			}
+		}
+		
+		threadFactory.interrupt();
+		threadTruckA.interrupt();
+		threadTruckB.interrupt();
+		threadTruckC.interrupt();
+		
+		
+		if(!threadFactory.isAlive() && 
+		   !threadTruckA.isAlive() && 
+		   !threadTruckB.isAlive() && 
+		   !threadTruckC.isAlive()) {
+
+			printAllToString(true);
+			
+		}
+		
+		
 
 		
 	}
 	
-	public String printAllToString() {
-		return factory.toString() + a.toString() + b.toString() + c.toString() +
-				truckA.toString() + truckB.toString() + truckC.toString();
+	public String printAllToString(boolean isDebugModeOn) {
+		if (isDebugModeOn) {
+			return factory.toString() +
+				truckA.toString() + truckB.toString() + truckC.toString() + 
+				a.toString() + b.toString() + c.toString();
+		}
+		else {
+			return "";
+		}
+
+			
 	}
 
 }

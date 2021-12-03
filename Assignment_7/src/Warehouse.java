@@ -33,6 +33,8 @@ public class Warehouse{
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
+			} finally {
+				System.out.println("Thread is terminated immediately.");
 			}
 		}
 		
