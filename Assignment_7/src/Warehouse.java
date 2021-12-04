@@ -28,23 +28,27 @@ public class Warehouse{
 	public ArrayList<String> pickUp(String destination, int max){
 		ArrayList<String> pickedUpCrates = new ArrayList<String>();
 		
-		while(!this.curntStoredCrates.contains(destination)) {
-			try {
+		try {
+			while(!this.curntStoredCrates.contains(destination)) {
+//				System.out.println("help.");
 				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} finally {
-				System.out.println("Thread is terminated immediately.");
 			}
-		}
-		
-		while(pickedUpCrates.size() <= max) {
+			while(pickedUpCrates.size() < max) {
 				this.curntStoredCrates.remove(destination);
 				pickedUpCrates.add(destination);		
+			}
+		} catch (InterruptedException e) {
+			System.out.println("PICK UP");
+			e.printStackTrace();
+		} finally {
+			System.out.println("WAREHOUSE Thread is terminated immediately.");
 		}
-		
 		return pickedUpCrates;
+
 	}
+	
+
+	
 	
 	public void deliver(ArrayList<String> delivery) {
 		for(String crates: delivery) {

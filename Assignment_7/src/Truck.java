@@ -23,6 +23,7 @@ public class Truck implements Runnable {
 			throw new IllegalArgumentException("Max number of crates cannot be negative.");
 		}
 		
+		this.name = "Truck " + dstn.getName();
 		this.src = src;
 		this.dstn = dstn;
 		this.maxNumCrts = maxNumCrts;
@@ -34,7 +35,7 @@ public class Truck implements Runnable {
 		String threadName = Thread.currentThread().getName();
 
 		while(!Thread.interrupted()) {
-			while(this.crtsOnTrucks.size() <= this.maxNumCrts) {
+			while(this.crtsOnTrucks.size() < this.maxNumCrts) {
 				src.pickUp(dstn.getName(), maxNumCrts);
 			}
 			try {
@@ -42,17 +43,18 @@ public class Truck implements Runnable {
 				dstn.deliver(crtsOnTrucks);
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
-				System.out.println(threadName + " thread is interrupted.");
+				System.out.println("TRUCK " + threadName + " thread is interrupted.");
 				e.printStackTrace();
 			} finally {
-				System.out.println(threadName + " thread is shutting down immediately.");
+				
+				System.out.println("TRUCK: " + threadName + " thread is shutting down immediately.");
 			}
 		}
 	}
 	
 	@Override
 	public String toString() {
-		return "Truck " + this.name + ": " + this.crtsOnTrucks;
+		return this.name + ": " + this.crtsOnTrucks;
 	}
 
 }

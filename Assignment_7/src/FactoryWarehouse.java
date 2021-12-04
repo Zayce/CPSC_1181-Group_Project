@@ -49,24 +49,48 @@ public class FactoryWarehouse extends Warehouse implements Runnable {
 	@Override
 	public void run() {
 		String threadName = Thread.currentThread().getName();	
+		int limitProducePerTime = 3;
 		try {
 			int numCrtsNeedToBePrdcd = this.numCrtsNeedSent - this.numCrtsProduced;
 			for(Warehouse dstn: dstntnWrhs) {
-				if(numCrtsNeedToBePrdcd >= 3) {
-					super.deliver(dstn.pickUp(dstn.getName(), 3));
+				ArrayList<String> dstnNames = new ArrayList<String>();
+				String dstnName = dstn.getName();
+				
+				for(int i = 0; i < limitProducePerTime; i++) {
+					dstnNames.add(dstnName);
 				}
-				else {
-					super.deliver(dstn.pickUp(dstn.getName(), numCrtsNeedToBePrdcd));
-				}
-				numCrtsProduced++;
-				Thread.sleep(5000);
+				
+				do {
+					numCrtsNeedToBePrdcd = this.numCrtsNeedSent - this.numCrtsProduced;
+					if(numCrtsNeedToBePrdcd >= limitProducePerTime) {
+						this.deliver(dstnNames);
+						numCrtsProduced += limitProducePerTime;
+					}
+					else {
+						switch(numCrtsNeedToBePrdcd) {
+							case 0:
+								dstnNames.removeAll(dstnNames);
+								break;
+							case 1:
+								dstnNames.remove(dstnName);
+								dstnNames.remove(dstnName);
+								break;
+							case 2:
+								dstnNames.remove(dstnName);
+								break;
+						}
+						this.deliver(dstnNames);
+						numCrtsProduced += numCrtsNeedToBePrdcd;
+					}
+					Thread.sleep(5000);
+				} while(numCrtsNeedToBePrdcd > 0);
 			}
 		} catch (InterruptedException e) {
-		System.out.println(threadName + " thread is interrupted.");
+		System.out.println("FACTWAREHOUSE " + threadName + " thread is interrupted.");
 		e.printStackTrace();
 		}
 		finally {
-			System.out.println(threadName + " thread is shutting down immediately.");
+			System.out.println("FACTWAREHOUSE " + threadName + " thread is shutting down immediately.");
 		}
 	}
 	

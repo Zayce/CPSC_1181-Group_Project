@@ -5,20 +5,20 @@ import java.util.ArrayList;
  *
  */
 public class LogisticsTester {
-	Warehouse a, b, c;
-	FactoryWarehouse factory;
-	Truck truckA, truckB, truckC;
+	static Warehouse a, b, c;
+	static FactoryWarehouse factory;
+	static Truck truckA, truckB, truckC;
 
 
-	public void main(String[] args) {
+	public static void main(String[] args) {
 
 		ArrayList<Warehouse> dstnWarehouses;
 		Thread threadTruckA, threadTruckB, threadTruckC, threadFactory;
 		boolean isDebugModeOn = true;
 		
-		a = new Warehouse("A", false);
-		b = new Warehouse("B", false);
-		c = new Warehouse("C", false);
+		a = new Warehouse("A", true);
+		b = new Warehouse("B", true);
+		c = new Warehouse("C", true);
 		
 		dstnWarehouses = new ArrayList<Warehouse>();
 		dstnWarehouses.add(a);
@@ -57,7 +57,7 @@ public class LogisticsTester {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			} finally {
-				System.out.println("Thread is shutting down immediately.");
+				System.out.println("MAIN Thread is shutting down immediately.");
 			}
 		}
 		
@@ -81,7 +81,7 @@ public class LogisticsTester {
 		
 	}
 	
-	public String printAllToString(boolean isDebugModeOn) {
+	public static String printAllToString(boolean isDebugModeOn) {
 		if (isDebugModeOn) {
 			return factory.toString() +
 				truckA.toString() + truckB.toString() + truckC.toString() + 
