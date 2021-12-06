@@ -1,11 +1,10 @@
 import java.util.ArrayList;
 
 /**
+ * FactoryWarehouse Class, warehouse that produces crates
  * 
- */
-
-/**
  * @author Zulhelmi (Zoella) Mohamad
+ * @author Chendong (Oliver) Zhu
  *
  */
 public class FactoryWarehouse extends Warehouse implements Runnable {
@@ -15,8 +14,12 @@ public class FactoryWarehouse extends Warehouse implements Runnable {
 	private int numCrtsProduced = 0;
 	
 	/**
-	 * @param nm
-	 * @param isWHouseCrtSmNm
+	 * FactoryWarehouse Constuctor
+	 * 
+	 * @param nm: Name of Factory Warehouse
+	 * @param dstntnWrhs: The destination warehouses in arraylist format
+	 * @param numCrtsNeedSent: The amount of crates that are needed to 
+	 * 		  be produced for each destination warehouse
 	 */
 	public FactoryWarehouse(String nm, ArrayList<Warehouse> dstntnWrhs, int numCrtsNeedSent) {
 		super(nm, false);
@@ -49,55 +52,51 @@ public class FactoryWarehouse extends Warehouse implements Runnable {
 	@Override
 	public void run() {
 		String threadName = Thread.currentThread().getName();	
-		int limitProducePerTime = 3;
+		int maxProdPerWarehouse = 3, cratesToProduce = 0;
+	
 		try {
-			int numCrtsNeedToBePrdcd = this.numCrtsNeedSent - this.numCrtsProduced;
-			for(Warehouse dstn: dstntnWrhs) {
-				ArrayList<String> dstnNames = new ArrayList<String>();
-				String dstnName = dstn.getName();
-				
-				for(int i = 0; i < limitProducePerTime; i++) {
-					dstnNames.add(dstnName);
-				}
-				
-				do {
-					numCrtsNeedToBePrdcd = this.numCrtsNeedSent - this.numCrtsProduced;
-					if(numCrtsNeedToBePrdcd >= limitProducePerTime) {
-						this.deliver(dstnNames);
-						numCrtsProduced += limitProducePerTime;
+			ArrayList<String> crateProduced = new ArrayList<String>();
+			while(numCrtsProduced < (numCrtsNeedSent * dstntnWrhs.size()) && !Thread.interrupted()) {
+				for(Warehouse dstn: dstntnWrhs) {
+					String dstnName = dstn.getName();
+					
+					if((this.numCrtsNeedSent - dstn.getCrateCount()) >= 3) {
+						cratesToProduce = maxProdPerWarehouse;
 					}
 					else {
-						switch(numCrtsNeedToBePrdcd) {
-							case 0:
-								dstnNames.removeAll(dstnNames);
-								break;
-							case 1:
-								dstnNames.remove(dstnName);
-								dstnNames.remove(dstnName);
-								break;
-							case 2:
-								dstnNames.remove(dstnName);
-								break;
+						switch(this.numCrtsNeedSent - dstn.getCrateCount()) {
+						case 0:
+							cratesToProduce = 0;
+							break;
+						case 1:
+							cratesToProduce = 1;
+							break;
+						case 2:
+							cratesToProduce = 2;
+							break;
 						}
-						this.deliver(dstnNames);
-						numCrtsProduced += numCrtsNeedToBePrdcd;
 					}
-					Thread.sleep(5000);
-				} while(numCrtsNeedToBePrdcd > 0);
+						
+					for(int i = 0; i < cratesToProduce; i++) {
+						crateProduced.add(dstnName);
+						numCrtsProduced++;
+					}
+				}
+				this.deliver(crateProduced);
+				Thread.sleep(5000);		
 			}
 		} catch (InterruptedException e) {
-		System.out.println("FACTWAREHOUSE " + threadName + " thread is interrupted.");
-		e.printStackTrace();
-		}
+			System.out.println("Factory " + threadName + " is interrupted.");
+		} 
 		finally {
-			System.out.println("FACTWAREHOUSE " + threadName + " thread is shutting down immediately.");
+			System.out.println("Factory finished Producing, " + threadName + " is shutting down.");
 		}
 	}
 	
 	@Override
 	public String toString() {
-		return "Name: " + super.getName() + 
-				" | No. of Stored Crates: " + super.getCrateCount() + 
-				" | No. of Produced Crates: " + this.numCrtsProduced;
+		return super.getName() +
+				" | Storing: " + super.getCrateCount() + 
+				" | Produced: " + this.numCrtsProduced;
 	}
 }
