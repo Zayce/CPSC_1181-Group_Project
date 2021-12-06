@@ -21,7 +21,7 @@ public class DeliveryService {
 		Thread threadTruckA, threadTruckB, threadTruckC, threadFactory;
 		
 		//Put false for handing in assignments, put true if you want to check how the program works per second.
-		boolean isDebugModeOn = true;
+		boolean isDebugModeOn = false;
 		
 		a = new Warehouse("A", true);
 		b = new Warehouse("B", true);
